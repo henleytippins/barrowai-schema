@@ -1,26 +1,23 @@
-# Barrow-AI AEO Platform v2
+# Barrow-AI — Full Site
 
-## File structure
+## Structure
 ```
+index.html        ← Marketing homepage (barrow-ai.com)
+app/
+  index.html      ← Schema Builder (barrow-ai.com/app)
+  tracker.html    ← Agency Tracker (barrow-ai.com/app/tracker.html)
 api/
-  chat.js          ← Anthropic proxy (serverless function)
-public/
-  index.html       ← Schema Builder
-  tracker.html     ← Agency Tracker Dashboard
-vercel.json        ← Routing config
+  chat.js         ← Anthropic proxy
+vercel.json
 ```
 
-## Deploy to Vercel
+## Deploy
+1. Upload contents to GitHub repo
+2. Connect to Vercel → Deploy
+3. Add env var: ANTHROPIC_API_KEY = sk-ant-...
+4. In Vercel: Settings → Domains → add barrow-ai.com
+5. Update DNS at your registrar: CNAME @ → cname.vercel-dns.com
 
-1. Push this folder to a GitHub repo (upload the contents, not a zip)
-2. Connect repo to Vercel → Deploy
-3. Add environment variable: ANTHROPIC_API_KEY = sk-ant-...
-4. Redeploy
-
-## Pages
-- `/` → Schema Builder (AI interview → JSON-LD)
-- `/tracker.html` → Agency Tracker (all clients, scores, alerts)
-
-Both pages share the same sidebar nav and Barrow-AI branding.
-The Schema Builder shows an "Open Tracker →" CTA after schema generation.
-The Tracker shows a "New Schema →" link back to the builder.
+## Connect your domain
+Vercel → Project → Settings → Domains → Add Domain → barrow-ai.com
+Follow the DNS instructions shown — usually takes 5-30 min to propagate.

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barrow-AI — AEO Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'Inter',sans-serif;background:#f0f4f9;color:#0f1c2e;font-size:14px}
+::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-thumb{background:#c8d5e8;border-radius:4px}
+:root{
+  --blue:#3fa0d8;--blue-dark:#2887be;--blue-dim:rgba(63,160,216,.10);--blue-mid:#cce8f6;
+  --green:#27ae7a;--green-dim:rgba(39,174,122,.10);--green-mid:rgba(39,174,122,.25);
+  --red:#e05252;--red-dim:rgba(224,82,82,.08);--red-mid:rgba(224,82,82,.22);
+  --amber:#d4870a;--amber-dim:rgba(212,135,10,.10);--amber-mid:rgba(212,135,10,.25);
+  --border:#e2e8f2;--border2:#c8d5e8;
+  --surface:#ffffff;--surface2:#f4f7fb;
+  --text:#0f1c2e;--text2:#4a5f7a;--text3:#8fa3be;
+  --mono:'IBM Plex Mono',monospace;--r:10px;--rs:7px;
+  --shadow:0 1px 3px rgba(15,28,46,.06),0 2px 8px rgba(15,28,46,.04);
+}
+.app{display:flex;height:100vh;overflow:hidden}
+.sidebar{width:220px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column}
+.sidebar-logo{padding:18px 16px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-circle{width:32px;height:32px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(63,160,216,.3)}
+.logo-text{font-size:13px;font-weight:600;color:var(--text);line-height:1.2}
+.logo-sub{font-size:10px;color:var(--text3);font-family:var(--mono)}
+.sidebar-section{padding:12px 10px 4px;font-size:10px;color:var(--text3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.8px;font-weight:500}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:var(--rs);margin:1px 6px;cursor:pointer;font-size:13px;color:var(--text2);transition:all .15s;font-weight:400;text-decoration:none}
+.nav-item:hover{background:var(--surface2);color:var(--text)}
+.nav-item.active{background:var(--blue-dim);color:var(--blue-dark);font-weight:500}
+.nav-icon{width:16px;height:16px;flex-shrink:0;opacity:.65}
+.nav-item.active .nav-icon{opacity:1}
+.sidebar-divider{height:1px;background:var(--border);margin:8px 12px}
+.sidebar-bottom{margin-top:auto;padding:12px 10px;border-top:1px solid var(--border)}
+.plan-pill{background:var(--blue-dim);border:1px solid var(--blue-mid);border-radius:var(--rs);padding:10px 12px}
+.plan-name{font-size:11px;font-weight:600;color:var(--blue-dark)}
+.plan-sub{font-size:10px;color:var(--text3);font-family:var(--mono);margin-top:1px}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{padding:13px 24px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;box-shadow:var(--shadow)}
+.topbar-title{font-size:15px;font-weight:600;color:var(--text)}
+.topbar-sub{font-size:11px;color:var(--text3);font-family:var(--mono);margin-top:2px}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.tb-btn{background:var(--surface2);border:1px solid var(--border);border-radius:var(--rs);padding:6px 14px;font-size:12px;color:var(--text2);cursor:pointer;font-weight:500;transition:all .15s;font-family:'Inter',sans-serif;text-decoration:none;display:inline-flex;align-items:center;gap:5px}
+.tb-btn:hover{border-color:var(--blue);color:var(--blue)}
+.tb-btn.primary{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 2px 6px rgba(63,160,216,.3)}
+.tb-btn.primary:hover{background:var(--blue-dark)}
+.alert-dot{width:8px;height:8px;background:var(--red);border-radius:50%;display:inline-block;margin-right:3px;animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.content{flex:1;overflow-y:auto;padding:24px}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;box-shadow:var(--shadow)}
+.stat-label{font-size:10px;color:var(--text3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
+.stat-value{font-size:28px;font-weight:300;color:var(--text);line-height:1;letter-spacing:-1px}
+.stat-delta{font-size:11px;font-family:var(--mono);margin-top:4px}
+.du{color:var(--green)}.dd{color:var(--red)}.df{color:var(--text3)}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.section-title{font-size:13px;font-weight:600;color:var(--text)}
+.section-controls{display:flex;gap:6px}
+.pill{background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:4px 10px;font-size:11px;color:var(--text2);cursor:pointer;font-family:var(--mono);transition:all .15s}
+.pill.active{background:var(--blue-dim);border-color:var(--blue-mid);color:var(--blue-dark)}
+.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px}
+table{width:100%;border-collapse:collapse}
+thead th{padding:10px 16px;font-size:10px;color:var(--text3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.6px;font-weight:500;border-bottom:1px solid var(--border);background:var(--surface2);text-align:left}
+tbody tr{border-bottom:1px solid var(--border);transition:background .1s;cursor:pointer}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:var(--surface2)}
+tbody td{padding:12px 16px;font-size:13px;color:var(--text);vertical-align:middle}
+.client-name{font-weight:500}
+.client-url{font-size:11px;color:var(--text3);font-family:var(--mono);margin-top:1px}
+.score-badge{display:inline-flex;align-items:center;justify-content:center;width:42px;height:26px;border-radius:6px;font-family:var(--mono);font-size:12px;font-weight:500}
+.sh{background:var(--green-dim);color:var(--green);border:1px solid var(--green-mid)}
+.sm{background:var(--amber-dim);color:var(--amber);border:1px solid var(--amber-mid)}
+.sl{background:var(--red-dim);color:var(--red);border:1px solid var(--red-mid)}
+.status-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:20px;font-size:11px;font-family:var(--mono);font-weight:500}
+.sdot{width:5px;height:5px;border-radius:50%}
+.s-live{background:var(--green-dim);color:var(--green);border:1px solid var(--green-mid)}
+.s-live .sdot{background:var(--green)}
+.s-warn{background:var(--amber-dim);color:var(--amber);border:1px solid var(--amber-mid)}
+.s-warn .sdot{background:var(--amber)}
+.s-err{background:var(--red-dim);color:var(--red);border:1px solid var(--red-mid)}
+.s-err .sdot{background:var(--red)}
+.spark{display:inline-flex;align-items:flex-end;gap:2px;height:20px;vertical-align:middle}
+.spark-bar{width:4px;border-radius:2px;background:var(--blue-mid)}
+.spark-bar.up{background:#9FE1CB}.spark-bar.down{background:#F09595}
+.bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;box-shadow:var(--shadow)}
+.card-title{font-size:11px;font-weight:700;color:var(--text);margin-bottom:14px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.6px}
+.alert-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.alert-item:last-child{border-bottom:none;padding-bottom:0}
+.alert-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px}
+.ai-red{background:var(--red-dim);border:1px solid var(--red-mid)}
+.ai-amber{background:var(--amber-dim);border:1px solid var(--amber-mid)}
+.ai-green{background:var(--green-dim);border:1px solid var(--green-mid)}
+.ai-blue{background:var(--blue-dim);border:1px solid var(--blue-mid)}
+.alert-title{font-size:12px;font-weight:500;color:var(--text);margin-bottom:2px}
+.alert-sub{font-size:11px;color:var(--text3);font-family:var(--mono)}
+.alert-time{font-size:10px;color:var(--text3);font-family:var(--mono);margin-left:auto;flex-shrink:0;padding-top:1px}
+.cite-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border)}
+.cite-row:last-child{border-bottom:none}
+.cite-engine{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;min-width:90px}
+.edot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.cite-bar-wrap{flex:1;margin:0 14px;height:6px;background:var(--surface2);border-radius:3px;overflow:hidden}
+.cite-bar{height:100%;border-radius:3px}
+.cite-pct{font-size:11px;font-family:var(--mono);color:var(--text2);min-width:32px;text-align:right}
+.chart-wrap{position:relative;height:160px}
+.detail-panel{position:fixed;top:0;right:0;width:440px;height:100vh;background:var(--surface);border-left:1px solid var(--border);box-shadow:-4px 0 24px rgba(15,28,46,.10);z-index:100;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s ease}
+.detail-panel.open{transform:translateX(0)}
+.detail-head{padding:18px 20px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;flex-shrink:0}
+.dclose{background:var(--surface2);border:1px solid var(--border);border-radius:6px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:var(--text2)}
+.dclose:hover{border-color:var(--blue);color:var(--blue)}
+.detail-body{flex:1;overflow-y:auto;padding:20px}
+.dm{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin-bottom:12px}
+.dml{font-size:10px;color:var(--text3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
+.dmv{font-size:22px;font-weight:300;color:var(--text);letter-spacing:-.5px}
+.dms{font-size:11px;color:var(--text3);font-family:var(--mono);margin-top:3px}
+.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.dcheck-list{display:flex;flex-direction:column;gap:6px}
+.dck{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:6px;font-size:12px}
+.dck.pass{background:var(--green-dim);border:1px solid var(--green-mid);color:var(--text)}
+.dck.fail{background:var(--red-dim);border:1px solid var(--red-mid);color:var(--text)}
+.dck.warn{background:var(--amber-dim);border:1px solid var(--amber-mid);color:var(--text)}
+.dcd{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.pass .dcd{background:var(--green)}.fail .dcd{background:var(--red)}.warn .dcd{background:var(--amber)}
+.overlay{position:fixed;inset:0;background:rgba(15,28,46,.25);z-index:99;opacity:0;pointer-events:none;transition:opacity .3s}
+.overlay.open{opacity:1;pointer-events:all}
+
+/* builder CTA */
+.builder-cta{background:var(--blue-dim);border:1px solid var(--blue-mid);border-radius:var(--r);padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.cta-text{font-size:13px;font-weight:500;color:var(--blue-dark)}
+.cta-sub{font-size:11px;color:var(--text3);font-family:var(--mono);margin-top:2px}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- Shared sidebar (identical markup, different active state) -->
+  <div class="sidebar">
+    <a class="sidebar-logo" href="/index.html">
+      <div class="logo-circle">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+          <circle cx="10" cy="10" r="3" stroke="white" stroke-width="1.5" fill="none"/>
+          <circle cx="10" cy="3" r="1.2" stroke="white" stroke-width="1.2" fill="none"/>
+          <circle cx="17" cy="7" r="1.2" stroke="white" stroke-width="1.2" fill="none"/>
+          <circle cx="17" cy="13" r="1.2" stroke="white" stroke-width="1.2" fill="none"/>
+          <circle cx="10" cy="17" r="1.2" stroke="white" stroke-width="1.2" fill="none"/>
+          <circle cx="3" cy="13" r="1.2" stroke="white" stroke-width="1.2" fill="none"/>
+          <circle cx="3" cy="7" r="1.2" stroke="white" stroke-width="1.2" fill="none"/>
+          <line x1="10" y1="6.5" x2="10" y2="4.2" stroke="white" stroke-width="1"/>
+          <line x1="12.8" y1="8.2" x2="15.8" y2="7.8" stroke="white" stroke-width="1"/>
+          <line x1="12.8" y1="11.8" x2="15.8" y2="12.2" stroke="white" stroke-width="1"/>
+          <line x1="10" y1="13.5" x2="10" y2="15.8" stroke="white" stroke-width="1"/>
+          <line x1="7.2" y1="11.8" x2="4.2" y2="12.2" stroke="white" stroke-width="1"/>
+          <line x1="7.2" y1="8.2" x2="4.2" y2="7.8" stroke="white" stroke-width="1"/>
+        </svg>
+      </div>
+      <div>
+        <div class="logo-text">BARROW-AI LLC</div>
+        <div class="logo-sub">AEO Platform</div>
+      </div>
+    </a>
+
+    <div class="sidebar-section">Tools</div>
+    <a class="nav-item" href="/index.html">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 4h12M2 8h8M2 12h10"/></svg>
+      Schema Builder
+    </a>
+    <a class="nav-item active" href="/tracker.html">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 12L5 8l3 3 3-4 3 2"/><rect x="1" y="1" width="14" height="14" rx="2"/></svg>
+      AEO Tracker
+    </a>
+
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section">Clients</div>
+    <div id="client-nav"></div>
+
+    <div class="sidebar-bottom">
+      <div class="plan-pill">
+        <div class="plan-name">Agency Plan</div>
+        <div class="plan-sub"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="87efe2e9ebe2fec7e5e6f5f5e8f0aae6eea9e4e8ea">[email&#160;protected]</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title">Agency Overview</div>
+        <div class="topbar-sub">Last scan: today 9:14 AM · Next: tonight 11:00 PM</div>
+      </div>
+      <div class="topbar-right">
+        <div style="font-size:12px;color:var(--text3);font-family:var(--mono)">
+          <span class="alert-dot"></span><span id="alert-count">3</span> alerts
+        </div>
+        <button class="tb-btn" onclick="runScan()">↺ Run scan</button>
+        <a class="tb-btn primary" href="/index.html">
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 4h12M2 8h8M2 12h10"/></svg>
+          New schema
+        </a>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- Builder CTA -->
+      <div class="builder-cta">
+        <div>
+          <div class="cta-text">Need to build or update a schema?</div>
+          <div class="cta-sub">Use the AI Schema Builder to generate JSON-LD in minutes</div>
+        </div>
+        <a class="tb-btn primary" href="/index.html">Open Schema Builder →</a>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-label">Active clients</div>
+          <div class="stat-value">6</div>
+          <div class="stat-delta du">+2 this month</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Avg AEO score</div>
+          <div class="stat-value">70</div>
+          <div class="stat-delta du">↑ +4pts vs last month</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">AI citations / week</div>
+          <div class="stat-value">517</div>
+          <div class="stat-delta du">↑ +18% vs last week</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Schema issues</div>
+          <div class="stat-value">2</div>
+          <div class="stat-delta dd">2 need attention</div>
+        </div>
+      </div>
+
+      <!-- Client table -->
+      <div class="section-header">
+        <div class="section-title">All clients</div>
+        <div class="section-controls">
+          <div class="pill active" onclick="filterClients('all',this)">All</div>
+          <div class="pill" onclick="filterClients('issues',this)">Issues</div>
+          <div class="pill" onclick="filterClients('top',this)">Top scores</div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>Client</th><th>AEO Score</th><th>Trend (8w)</th>
+            <th>AI citations</th><th>Schema</th><th>Rich results</th><th>Status</th>
+          </tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+
+      <!-- Bottom grid -->
+      <div class="bottom-grid">
+        <div class="card">
+          <div class="card-title">Recent alerts</div>
+          <div id="alerts-list"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">AI citation rate by engine</div>
+          <div id="cite-breakdown"></div>
+        </div>
+      </div>
+
+      <!-- Chart -->
+      <div class="card" style="margin-bottom:24px">
+        <div class="card-title">Portfolio AEO score — 8 week trend</div>
+        <div class="chart-wrap"><canvas id="chart"></canvas></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay" onclick="closeDetail()"></div>
+<div class="detail-panel" id="dpanel">
+  <div class="detail-head">
+    <div>
+      <div style="font-size:15px;font-weight:600;color:var(--text)" id="d-name">—</div>
+      <div style="font-size:11px;color:var(--text3);font-family:var(--mono);margin-top:2px" id="d-url">—</div>
+    </div>
+    <div class="dclose" onclick="closeDetail()">✕</div>
+  </div>
+  <div class="detail-body" id="d-body"></div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+const CLIENTS=[
+  {id:1,name:"Lone Wolf Arms",url:"lonewolfdist.com",score:82,trend:[61,65,68,71,74,77,80,82],delta:+5,citations:{chatgpt:71,perplexity:58,gemini:44},schema:{valid:true,issues:0,type:"LocalBusiness"},richResults:34,status:"live",checks:[{l:"@type LocalBusiness",ok:true},{l:"Address & phone",ok:true},{l:"Opening hours",ok:true},{l:"Product schema",ok:true},{l:"FAQ schema",ok:true},{l:"Review schema",ok:false,warn:true}]},
+  {id:2,name:"Primary Weapons Systems",url:"primaryweapons.com",score:74,trend:[55,58,60,63,66,70,72,74],delta:+3,citations:{chatgpt:62,perplexity:49,gemini:38},schema:{valid:true,issues:1,type:"Organization"},richResults:21,status:"live",checks:[{l:"@type Organization",ok:true},{l:"Address & phone",ok:true},{l:"Opening hours",ok:false},{l:"Product schema",ok:true},{l:"FAQ schema",ok:false},{l:"sameAs links",ok:true}]},
+  {id:3,name:"Boise Family Dental",url:"boisefamilydental.com",score:91,trend:[78,80,82,84,86,88,90,91],delta:+2,citations:{chatgpt:83,perplexity:74,gemini:61},schema:{valid:true,issues:0,type:"Dentist"},richResults:58,status:"live",checks:[{l:"@type Dentist",ok:true},{l:"Address & phone",ok:true},{l:"Opening hours",ok:true},{l:"Services listed",ok:true},{l:"FAQ schema",ok:true},{l:"Review schema",ok:true}]},
+  {id:4,name:"Treasure Valley Roofing",url:"tvroofing.com",score:47,trend:[52,50,49,48,47,46,47,47],delta:-3,citations:{chatgpt:28,perplexity:19,gemini:11},schema:{valid:false,issues:3,type:"LocalBusiness"},richResults:4,status:"error",checks:[{l:"@type LocalBusiness",ok:true},{l:"Address & phone",ok:false},{l:"Opening hours",ok:false},{l:"Services listed",ok:false},{l:"FAQ schema",ok:false},{l:"URL valid",ok:true}]},
+  {id:5,name:"Idaho Legal Group",url:"idaholegal.com",score:68,trend:[60,61,63,64,65,66,67,68],delta:+1,citations:{chatgpt:54,perplexity:41,gemini:29},schema:{valid:true,issues:1,type:"LegalService"},richResults:17,status:"warn",checks:[{l:"@type LegalService",ok:true},{l:"Address & phone",ok:true},{l:"Opening hours",ok:true},{l:"Practice areas",ok:false,warn:true},{l:"Attorney profiles",ok:false},{l:"FAQ schema",ok:true}]},
+  {id:6,name:"Meridian Auto Repair",url:"meridianautoidaho.com",score:55,trend:[40,43,45,47,50,52,53,55],delta:+8,citations:{chatgpt:41,perplexity:33,gemini:22},schema:{valid:true,issues:2,type:"AutoRepair"},richResults:9,status:"warn",checks:[{l:"@type AutoRepair",ok:true},{l:"Address & phone",ok:true},{l:"Opening hours",ok:true},{l:"Services listed",ok:false},{l:"Price range",ok:false,warn:true},{l:"FAQ schema",ok:false}]},
+];
+const ALERTS=[
+  {type:"red",icon:"⚠",title:"Schema broken — Treasure Valley Roofing",sub:"3 validation errors detected",time:"1h ago"},
+  {type:"amber",icon:"↓",title:"Score dropped — Treasure Valley Roofing",sub:"Rich result impressions down 40%",time:"1h ago"},
+  {type:"amber",icon:"!",title:"Missing FAQ schema — Idaho Legal Group",sub:"Practice areas not indexed by AI",time:"3h ago"},
+  {type:"green",icon:"↑",title:"New AI citation — Lone Wolf Arms",sub:"Cited in ChatGPT for 'best AR parts'",time:"5h ago"},
+  {type:"green",icon:"↑",title:"Score milestone — Boise Family Dental",sub:"Reached 91/100 AEO score",time:"8h ago"},
+  {type:"blue",icon:"✓",title:"Weekly scan complete",sub:"6 clients scanned, 2 issues found",time:"2h ago"},
+];
+const WEEKS=["Feb 3","Feb 10","Feb 17","Feb 24","Mar 3","Mar 10","Mar 17","Mar 24"];
+
+window.addEventListener("load",()=>{
+  renderClientNav();renderTable(CLIENTS);renderAlerts();renderCitations();renderChart();
+});
+
+function renderClientNav(){
+  document.getElementById("client-nav").innerHTML=CLIENTS.map(c=>`
+    <div class="nav-item" onclick="openDetail(${c.id})" style="font-size:12px">
+      <div style="width:7px;height:7px;border-radius:50%;flex-shrink:0;background:${c.status==='live'?'var(--green)':c.status==='warn'?'var(--amber)':'var(--red)'}"></div>
+      ${c.name.length>18?c.name.substring(0,18)+'…':c.name}
+    </div>`).join("");
+}
+
+function sparkHTML(t){
+  const min=Math.min(...t),max=Math.max(...t),range=max-min||1;
+  return `<div class="spark">${t.map((v,i)=>{const h=Math.round(4+((v-min)/range)*16);const cls=i>0&&t[i]>t[i-1]?"up":i>0&&t[i]<t[i-1]?"down":"";return `<div class="spark-bar ${cls}" style="height:${h}px"></div>`;}).join("")}</div>`;
+}
+
+function sc(s){return s>=80?"sh":s>=60?"sm":"sl";}
+function stHTML(s){const m={live:["s-live","Live"],warn:["s-warn","Warning"],error:["s-err","Error"]};const[cls,lbl]=m[s]||["s-warn","?"];return `<span class="status-pill ${cls}"><span class="sdot"></span>${lbl}</span>`;}
+
+function renderTable(clients){
+  document.getElementById("tbody").innerHTML=clients.map(c=>`
+    <tr onclick="openDetail(${c.id})">
+      <td><div class="client-name">${c.name}</div><div class="client-url">${c.url}</div></td>
+      <td><span class="score-badge ${sc(c.score)}">${c.score}</span></td>
+      <td>${sparkHTML(c.trend)} <span style="font-size:11px;font-family:var(--mono);color:${c.delta>=0?'var(--green)':'var(--red)'};margin-left:4px">${c.delta>=0?'+':''}${c.delta}</span></td>
+      <td style="font-family:var(--mono);font-size:12px">${c.citations.chatgpt+c.citations.perplexity+c.citations.gemini}</td>
+      <td>${c.schema.valid?`<span style="color:var(--green);font-size:12px;font-family:var(--mono)">✓ Valid</span>${c.schema.issues?` <span style="color:var(--amber);font-size:10px">(${c.schema.issues} warn)</span>`:''}` :`<span style="color:var(--red);font-size:12px;font-family:var(--mono)">✕ ${c.schema.issues} errors</span>`}</td>
+      <td style="font-family:var(--mono);font-size:12px">${c.richResults} <span style="color:var(--text3)">impr.</span></td>
+      <td>${stHTML(c.status)}</td>
+    </tr>`).join("");
+}
+
+function renderAlerts(){
+  const cm={red:"ai-red",amber:"ai-amber",green:"ai-green",blue:"ai-blue"};
+  document.getElementById("alerts-list").innerHTML=ALERTS.map(a=>`
+    <div class="alert-item">
+      <div class="alert-icon ${cm[a.type]}">${a.icon}</div>
+      <div style="flex:1;min-width:0"><div class="alert-title">${a.title}</div><div class="alert-sub">${a.sub}</div></div>
+      <div class="alert-time">${a.time}</div>
+    </div>`).join("");
+}
+
+function renderCitations(){
+  const engines=[{name:"ChatGPT",color:"#10a37f",key:"chatgpt"},{name:"Perplexity",color:"#3fa0d8",key:"perplexity"},{name:"Gemini",color:"#8b5cf6",key:"gemini"}];
+  const avgs=engines.map(e=>({...e,avg:Math.round(CLIENTS.reduce((s,c)=>s+c.citations[e.key],0)/CLIENTS.length)}));
+  document.getElementById("cite-breakdown").innerHTML=avgs.map(e=>`
+    <div class="cite-row">
+      <div class="cite-engine"><div class="edot" style="background:${e.color}"></div>${e.name}</div>
+      <div class="cite-bar-wrap"><div class="cite-bar" style="width:${e.avg}%;background:${e.color};opacity:.75"></div></div>
+      <div class="cite-pct">${e.avg}%</div>
+    </div>`).join("");
+}
+
+function renderChart(){
+  const ctx=document.getElementById("chart").getContext("2d");
+  const avgs=WEEKS.map((_,wi)=>Math.round(CLIENTS.reduce((s,c)=>s+c.trend[wi],0)/CLIENTS.length));
+  new Chart(ctx,{type:"line",data:{labels:WEEKS,datasets:[{label:"Avg AEO score",data:avgs,borderColor:"#3fa0d8",backgroundColor:"rgba(63,160,216,.08)",borderWidth:2,pointBackgroundColor:"#3fa0d8",pointRadius:4,pointHoverRadius:6,fill:true,tension:.4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:"#fff",borderColor:"#e2e8f2",borderWidth:1,titleColor:"#0f1c2e",bodyColor:"#4a5f7a",callbacks:{label:ctx=>` Score: ${ctx.raw}`}}},scales:{x:{grid:{color:"#f0f4f9"},ticks:{color:"#8fa3be",font:{size:11,family:"IBM Plex Mono"}}},y:{grid:{color:"#f0f4f9"},ticks:{color:"#8fa3be",font:{size:11,family:"IBM Plex Mono"}},min:30,max:100}}}});
+}
+
+function filterClients(type,el){
+  document.querySelectorAll(".pill").forEach(p=>p.classList.remove("active"));el.classList.add("active");
+  let f=CLIENTS;
+  if(type==="issues") f=CLIENTS.filter(c=>!c.schema.valid||c.schema.issues>0||c.status!=="live");
+  if(type==="top") f=[...CLIENTS].sort((a,b)=>b.score-a.score).slice(0,3);
+  renderTable(f);
+}
+
+function openDetail(id){
+  const c=CLIENTS.find(x=>x.id===id);if(!c)return;
+  document.getElementById("d-name").textContent=c.name;
+  document.getElementById("d-url").textContent=c.url;
+  const avgCite=Math.round((c.citations.chatgpt+c.citations.perplexity+c.citations.gemini)/3);
+  document.getElementById("d-body").innerHTML=`
+    <div class="dgrid">
+      <div class="dm"><div class="dml">AEO Score</div><div class="dmv" style="color:${c.score>=80?'var(--green)':c.score>=60?'var(--amber)':'var(--red)'}">${c.score}</div><div class="dms">${c.delta>=0?'↑ +':'↓ '}${Math.abs(c.delta)}pts this month</div></div>
+      <div class="dm"><div class="dml">Avg citation rate</div><div class="dmv">${avgCite}%</div><div class="dms">across 3 AI engines</div></div>
+      <div class="dm"><div class="dml">Rich results</div><div class="dmv">${c.richResults}</div><div class="dms">Google impressions/wk</div></div>
+      <div class="dm"><div class="dml">Schema type</div><div class="dmv" style="font-size:15px;font-family:var(--mono)">${c.schema.type}</div><div class="dms">${c.schema.valid?'Valid':'Has errors'} · ${c.schema.issues} issue(s)</div></div>
+    </div>
+    <div style="margin-bottom:10px;font-size:11px;font-weight:700;color:var(--text);font-family:var(--mono);text-transform:uppercase;letter-spacing:.6px">AI citation breakdown</div>
+    ${['chatgpt','perplexity','gemini'].map((k,i)=>{const cols=["#10a37f","#3fa0d8","#8b5cf6"],names=["ChatGPT","Perplexity","Gemini"];return `<div class="cite-row"><div class="cite-engine" style="font-size:12px"><div class="edot" style="background:${cols[i]}"></div>${names[i]}</div><div class="cite-bar-wrap"><div class="cite-bar" style="width:${c.citations[k]}%;background:${cols[i]};opacity:.75"></div></div><div class="cite-pct">${c.citations[k]}%</div></div>`;}).join("")}
+    <div style="margin:16px 0 10px;font-size:11px;font-weight:700;color:var(--text);font-family:var(--mono);text-transform:uppercase;letter-spacing:.6px">Schema checks</div>
+    <div class="dcheck-list">${c.checks.map(ch=>`<div class="dck ${ch.ok?'pass':ch.warn?'warn':'fail'}"><div class="dcd"></div><span>${ch.l}</span></div>`).join("")}</div>
+    <div style="margin-top:18px;display:flex;gap:8px">
+      <a href="/index.html" class="tb-btn primary" style="flex:1;justify-content:center">Edit schema</a>
+      <button class="tb-btn" style="flex:1" onclick="window.open('https://search.google.com/test/rich-results','_blank')">Test live</button>
+    </div>`;
+  document.getElementById("dpanel").classList.add("open");
+  document.getElementById("overlay").classList.add("open");
+}
+
+function closeDetail(){document.getElementById("dpanel").classList.remove("open");document.getElementById("overlay").classList.remove(
