@@ -316,10 +316,21 @@ let conv=[],schema=null,tab="preview",qn=0;
 const convRef={current:[]};
 let started=false;
 
-window.addEventListener("load",()=>{ if(!started){started=true;callAI(null,[]);} });
-
+window.addEventListener("load",()=>{
+  setTimeout(()=>{
+    try{
+      if(!started){started=true;callAI(null,[]);}
+    }catch(e){
+      addMsg("ai","Error starting interview: "+e.message);
+      setEnabled(true);
+    }
+  },500);
+});
+  
 async function callAI(userText,currentConv){
-  setEnabled(false);showTyping();
+  try{setEnabled(false);}catch(e){}
+  try{showTyping();}catch(e){}
+  
   let msgs=[...(currentConv!==undefined?currentConv:convRef.current)];
   if(userText) msgs.push({role:"user",content:userText});
   if(!msgs.length) msgs=[{role:"user",content:"Start the interview now."}];
