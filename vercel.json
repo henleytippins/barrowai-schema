@@ -1,12 +1,11 @@
 {
   "functions": {
-    "api/chat.js": {
-      "memory": 128,
-      "maxDuration": 30
-    }
+    "api/chat.js": { "memory": 128, "maxDuration": 30 },
+    "api/scrape.js": { "memory": 128, "maxDuration": 30 }
   },
   "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/app/(.*)", "destination": "/app/$1" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/!(*.png|*.jpg|*.jpeg|*.gif|*.svg|*.ico|*.js|*.css)", "destination": "/index.html" }
   ]
 }
