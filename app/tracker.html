@@ -364,7 +364,7 @@ function buildRevHtml(data){
 async function analyzeRevs(name,reviews){
   const txt=reviews.map(r=>`[${r.source} ${r.stars}★] ${r.text}`).join('\n');
   const prompt=`AEO analyst for "${name}". Extract structured review insights for AI citation optimization.\n\nReviews:\n${txt}\n\nReturn ONLY JSON:\n{"positive_phrases":[{"phrase":"exact phrase","count":number}],"negative_themes":[{"theme":"issue","suggestion":"schema fix"}],"themes":[{"theme":"name"}],"schema_keywords":["kw"],"faq_suggestions":[{"question":"user question","answer":"answer mentioning ${name}"}],"overall_sentiment":"positive|mixed|negative"}\n\n6 positive_phrases (multi-word, exact from reviews, counts 1-8), up to 3 negatives, 5 themes, 10 schema_keywords, 4 FAQs.`;
-  const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+  const res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
   const d=await res.json();if(d.error)throw new Error(d.error.message);
   let t=d.content.map(b=>b.text||'').join('').trim().replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/```\s*$/,'').trim();
   return JSON.parse(t);
@@ -434,7 +434,7 @@ async function runScan(){
 }
 async function doQ(name,loc,kws,query){
   const prompt=`You are an AI assistant asked: "${query}"\n\nAnswer genuinely as a helpful assistant. Recommend real restaurants, be specific.\n\nAfter your answer, output this JSON on the last line (raw JSON, no markdown):\n{"cited":true_or_false,"keywords_found":["kw1"],"snippet":"first 120 chars of answer"}\n\ncited=true only if you mentioned "${name}" (case-insensitive). keywords_found: only from ${JSON.stringify(kws)}.`;
-  const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+  const res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
   const d=await res.json();if(d.error)throw new Error(d.error.message);
   const text=d.content.map(b=>b.text||'').join('');
   const lines=text.trim().split('\n');let jl='';
@@ -507,7 +507,7 @@ async function genType(name,type,loc,kws,missed,mkw,cr,revPhrases,revFAQs,avgRat
   const ps=revPhrases.length>0?`\nInject these exact review phrases: ${revPhrases.join(', ')}`:'';
   const rs=totRevs>0?`\naggregateRating: ratingValue ${avgRating}, reviewCount ${totRevs}`:'';
   const prompts={restaurant:`JSON-LD Restaurant schema for "${name}" in ${loc}.\nInclude @context, @type, name, description (keywords: ${kws.join(', ')}), address, telephone, url, servesCuisine, priceRange, openingHours, aggregateRating.${ps}${rs}\nCitation rate is ${cr}% — make description rich and keyword-dense.\nReturn ONLY valid JSON-LD.`,faqpage:`JSON-LD FAQPage for "${name}" in ${loc}.\nFAQ entries for each uncited query:\n${missed.map((q,i)=>`${i+1}. "${q}"`).join('\n')}\nAlso for: ${mkw.join(', ')}.${revFAQs.length>0?'\nIncorporate:\n'+revFAQs.map(f=>`Q: ${f.question}\nA: ${f.answer}`).join('\n'):''}\nEvery answer must naturally mention "${name}". Return ONLY valid JSON-LD FAQPage.`,localbusiness:`JSON-LD LocalBusiness for "${name}" in ${loc}.\n@type [LocalBusiness,Restaurant,FoodEstablishment], full PostalAddress, geo, telephone, url, openingHoursSpecification, paymentAccepted, priceRange, amenityFeature, areaServed.${rs}\nReturn ONLY valid JSON-LD.`,menu:`JSON-LD Menu for "${name}" in ${loc}.\n3 sections, 3-4 items each with MenuSection/MenuItem, name, description, offers with price.${ps}\nReturn ONLY valid JSON-LD.`,breadcrumb:`JSON-LD BreadcrumbList for "${name}" website.\nHome, Menu, Reservations, About, Contact.\nReturn ONLY valid JSON-LD.`};
-  const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompts[type]}]})});
+  const res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompts[type]}]})});
   const d=await res.json();if(d.error)throw new Error(d.error.message);
   let t=d.content.map(b=>b.text||'').join('').trim().replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/```\s*$/,'').trim();
   try{return JSON.stringify(JSON.parse(t),null,2);}catch(e){return t;}
