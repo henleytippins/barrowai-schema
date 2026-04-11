@@ -39,7 +39,7 @@
     .sidebar-plan-label { font-size: 11px; font-weight: 600; color: var(--blue); margin-bottom: 2px; }
     .sidebar-plan-email { font-size: 11px; color: var(--text3); font-family: var(--mono); }
     .main { flex: 1; display: flex; flex-direction: column; min-width: 0; overflow: hidden; }
-    .topbar { background: var(--panel); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-shrink: 0; }
+    .topbar { background: var(--panel); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-shrink: 0; flex-wrap: wrap; }
     .topbar-title { font-size: 16px; font-weight: 600; color: var(--text); }
     .topbar-sub { font-size: 12px; color: var(--text3); font-family: var(--mono); margin-top: 2px; }
     .topbar-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
@@ -65,7 +65,8 @@
     .cpill:hover { border-color: var(--blue); color: var(--blue); }
     .cpill.active { border-color: var(--blue); background: var(--blue-light); color: var(--blue); }
     .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    @media (max-width: 600px) { .two { grid-template-columns: 1fr; } }
+    .three { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+    @media (max-width: 700px) { .two, .three { grid-template-columns: 1fr; } }
     .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
     .lbl { font-size: 11px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: .06em; }
     .inp { padding: 8px 12px; border-radius: var(--radius); border: 1px solid var(--border2); background: #fff; color: var(--text); font-size: 13px; font-family: var(--sans); width: 100%; transition: border-color .12s; }
@@ -82,6 +83,8 @@
     .abtn:hover { background: var(--bg); color: var(--text); }
     .abtn.primary { border-color: var(--blue); color: var(--blue); background: var(--blue-light); }
     .abtn.primary:hover { background: var(--blue-mid); }
+    .abtn.danger { border-color: #fca5a5; color: var(--red); background: #fee2e2; }
+    .abtn.danger:hover { background: #fecaca; }
     .badge { font-size: 11px; padding: 2px 8px; border-radius: 100px; font-weight: 500; }
     .bc { background: #dcfce7; color: #15803d; }
     .bm { background: var(--bg); color: var(--text3); border: 1px solid var(--border); }
@@ -160,7 +163,35 @@
     .spinner { display: inline-block; width: 10px; height: 10px; border: 1.5px solid var(--border2); border-top-color: var(--blue); border-radius: 50%; animation: spin .7s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .chart-wrap { position: relative; width: 100%; height: 160px; margin-top: 10px; }
-    .settings-client { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
+    .settings-client { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 8px; }
+
+    /* AEO SCORE RING */
+    .aeo-score-wrap { display: flex; align-items: center; gap: 16px; }
+    .aeo-ring { position: relative; width: 72px; height: 72px; flex-shrink: 0; }
+    .aeo-ring svg { transform: rotate(-90deg); }
+    .aeo-ring-num { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; font-family: var(--mono); }
+    .aeo-ring-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--text3); margin-bottom: 4px; }
+    .aeo-ring-grade { font-size: 13px; font-weight: 500; }
+
+    /* COMPETITOR TABLE */
+    .comp-grid { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .comp-grid th { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--text3); padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+    .comp-grid td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    .comp-grid tr:last-child td { border-bottom: none; }
+    .comp-grid tr.client-row-hl td { background: var(--blue-light); }
+    .comp-bar { height: 4px; border-radius: 2px; background: var(--border); overflow: hidden; width: 80px; display: inline-block; vertical-align: middle; margin-left: 6px; }
+    .comp-bar-fill { height: 100%; border-radius: 2px; }
+
+    /* ALERT BANNER */
+    .alert-banner { background: #fffbeb; border: 1px solid #fde68a; border-radius: var(--radius); padding: 12px 16px; margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px; }
+    .alert-banner.regen { background: #eff6ff; border-color: var(--blue-mid); }
+    .alert-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .alert-title { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+    .alert-desc { font-size: 12px; color: var(--text2); }
+    .alert-actions { display: flex; gap: 8px; margin-top: 8px; }
+    .alert-btn { font-size: 12px; padding: 5px 12px; border-radius: var(--radius); border: 1px solid var(--border2); background: #fff; color: var(--text2); cursor: pointer; font-family: var(--sans); font-weight: 500; transition: all .12s; }
+    .alert-btn.primary { background: var(--blue); color: #fff; border-color: var(--blue); }
+    .alert-btn:hover { opacity: .85; }
   </style>
 </head>
 <body>
@@ -186,9 +217,9 @@
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>
       Dashboard
     </button>
-    <button class="sidebar-item" onclick="nav('reviews',this)" data-panel="reviews">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1l1.8 3.6L14 5.3l-3 2.9.7 4.1L8 10.4l-3.7 1.9.7-4.1-3-2.9 4.2-.7z"/></svg>
-      Reviews
+    <button class="sidebar-item" onclick="nav('competitors',this)" data-panel="competitors">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="5" cy="8" r="3"/><circle cx="11" cy="8" r="3"/></svg>
+      Competitors
     </button>
     <button class="sidebar-item" onclick="nav('scan',this)" data-panel="scan">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5"/><path d="M11 11l3 3"/></svg>
@@ -197,6 +228,10 @@
     <button class="sidebar-item" onclick="nav('schema',this)" data-panel="schema">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h12M4 8h8M6 12h4"/></svg>
       Schema Gen
+    </button>
+    <button class="sidebar-item" onclick="nav('reviews',this)" data-panel="reviews">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1l1.8 3.6L14 5.3l-3 2.9.7 4.1L8 10.4l-3.7 1.9.7-4.1-3-2.9 4.2-.7z"/></svg>
+      Reviews
     </button>
     <div class="sidebar-section" style="margin-top:8px;">Clients</div>
     <div class="sidebar-clients" id="sidebarClients"></div>
@@ -216,16 +251,17 @@
       </div>
       <div class="topbar-right">
         <span class="topbar-meta" id="lastScanLabel"></span>
-        <button class="tbtn" onclick="nav('settings',document.querySelector('[data-panel=settings]'))">Settings</button>
+        <button class="tbtn" onclick="nav('settings',null);showSettings();">Settings</button>
         <button class="tbtn primary" onclick="nav('scan',document.querySelector('[data-panel=scan]'))">↺ Run scan</button>
         <a href="https://barrow-ai.com/app/" class="tbtn">New schema</a>
       </div>
     </div>
     <div class="content">
       <div id="p-dashboard" class="panel-content active"></div>
-      <div id="p-reviews" class="panel-content"></div>
+      <div id="p-competitors" class="panel-content"></div>
       <div id="p-scan" class="panel-content"></div>
       <div id="p-schema" class="panel-content"></div>
+      <div id="p-reviews" class="panel-content"></div>
       <div id="p-settings" class="panel-content"></div>
     </div>
   </div>
@@ -233,15 +269,22 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-const SK='barrow_v4';
-let DB={clients:{},scans:{},schemas:{},reviews:{},apiKeys:{}};
+const SK='barrow_v5';
+let DB={clients:{},scans:{},schemas:{},reviews:{},apiKeys:{},competitors:{},regenQueue:{}};
 let AC=null;
-let qInputs=['Best [cuisine] restaurant [city]','Romantic dinner spots near [location]','Top [cuisine] dining [city]','Best pasta in [city]'];
+let qInputs=['Best [cuisine] restaurant [city]','Romantic dinner spots near [location]','Top [cuisine] dining [city]','Best [cuisine] in [city]'];
 let schToggles={restaurant:true,faqpage:true,localbusiness:true,menu:false,breadcrumb:false};
 let tChart=null;
-const TITLES={dashboard:['Dashboard','AI visibility tracking'],reviews:['Review Intelligence','Google + Yelp phrase extraction'],scan:['AEO Scan','Live AI citation tracking'],schema:['Schema Generator','Review-enriched JSON-LD'],settings:['Settings','Manage clients and data']};
 
-// Storage: uses localStorage for standalone deployment
+const TITLES={
+  dashboard:['Dashboard','AEO score + visibility tracking'],
+  competitors:['Competitor tracking','See who AI cites instead'],
+  scan:['AEO Scan','Live citation tracking'],
+  schema:['Schema Generator','Review-enriched JSON-LD'],
+  reviews:['Review Intelligence','Google + Yelp phrase extraction'],
+  settings:['Settings','Manage clients and data']
+};
+
 const store={
   get:async(k)=>{try{const v=localStorage.getItem(k);return v?{value:v}:null;}catch(e){return null;}},
   set:async(k,v)=>{try{localStorage.setItem(k,v);return{value:v};}catch(e){return null;}}
@@ -249,9 +292,13 @@ const store={
 
 async function load(){
   try{const r=await store.get(SK);if(r&&r.value)DB=JSON.parse(r.value);}catch(e){}
+  if(!DB.competitors)DB.competitors={};
+  if(!DB.regenQueue)DB.regenQueue={};
   if(!Object.keys(DB.clients).length){
     DB.clients['Filomena']={name:'Filomena',location:'Georgetown, Washington DC',keywords:'Filomena, Italian, pasta, romantic dining, Georgetown, DC, wine list',cuisine:'Italian'};
     DB.clients['Ambar']={name:'Ambar',location:'Capitol Hill, Washington DC',keywords:'Ambar, Balkan, mezze, brunch, Capitol Hill, DC',cuisine:'Balkan'};
+    DB.competitors['Filomena']=['1789 Restaurant','Lupo Verde','Piccolo Paradiso'];
+    DB.competitors['Ambar']=['Cava','Zaytinya','Compass Rose'];
     AC='Filomena';await save();
   } else {AC=Object.keys(DB.clients)[0];}
   renderSidebarClients();renderPanel('dashboard');updateLastScan();
@@ -270,10 +317,19 @@ function nav(id,btn){
 }
 function renderPanel(id){
   if(id==='dashboard')renderDash();
-  else if(id==='reviews')renderRev();
+  else if(id==='competitors')renderCompetitors();
   else if(id==='scan')renderScan();
   else if(id==='schema')renderSchema();
+  else if(id==='reviews')renderRev();
   else if(id==='settings')renderSettings();
+}
+function showSettings(){
+  document.querySelectorAll('[data-panel]').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.panel-content').forEach(p=>p.classList.remove('active'));
+  document.getElementById('p-settings').classList.add('active');
+  document.getElementById('topbarTitle').textContent='Settings';
+  document.getElementById('topbarSub').textContent='Manage clients and data';
+  renderSettings();
 }
 function updateLastScan(){
   const s=DB.scans[AC]||[];
@@ -296,34 +352,570 @@ function clientPills(fn){
 }
 function setAC(n,b){AC=n;document.querySelectorAll('.cpill').forEach(p=>p.classList.remove('active'));if(b)b.classList.add('active');renderSidebarClients();updateLastScan();}
 
+/* ── AEO SCORE ── */
+function calcAEOScore(scans, schemas){
+  if(!scans||!scans.length) return null;
+  const lat=scans[scans.length-1];
+  const cited=lat.results.filter(r=>r.cited).length;
+  const total=lat.results.length;
+  const citationRate=total>0?Math.round((cited/total)*100):0;
+  const schemaTypes=['Restaurant','FAQPage','LocalBusiness','Menu','BreadcrumbList'];
+  const presentTypes=schemas?Object.keys(schemas.schemas||{}):[];
+  const schemaScore=Math.round((presentTypes.length/schemaTypes.length)*100);
+  // Weighted: 60% citation rate, 40% schema completeness
+  const score=Math.round(citationRate*0.6+schemaScore*0.4);
+  return{score,citationRate,schemaScore,grade:score>=80?'A':score>=65?'B':score>=50?'C':score>=35?'D':'F'};
+}
+
+function scoreColor(score){
+  if(score>=80)return'#16a34a';
+  if(score>=65)return'#2563eb';
+  if(score>=50)return'#d97706';
+  return'#dc2626';
+}
+
+function renderScoreRing(score, size=72){
+  const col=scoreColor(score);
+  const r=28,circ=2*Math.PI*r;
+  const dash=Math.round((score/100)*circ);
+  return`<div class="aeo-ring" style="width:${size}px;height:${size}px;">
+    <svg width="${size}" height="${size}" viewBox="0 0 72 72">
+      <circle cx="36" cy="36" r="${r}" fill="none" stroke="${col}20" stroke-width="6"/>
+      <circle cx="36" cy="36" r="${r}" fill="none" stroke="${col}" stroke-width="6"
+        stroke-dasharray="${dash} ${circ}" stroke-linecap="round"/>
+    </svg>
+    <div class="aeo-ring-num" style="color:${col};">${score}</div>
+  </div>`;
+}
+
+/* ── DASHBOARD ── */
 function renderDash(){
   const el=document.getElementById('p-dashboard');
   const scans=DB.scans[AC]||[];
-  if(!scans.length){el.innerHTML=clientPills('setAC')+`<div class="pbox"><div class="empty">No scans for ${AC} yet.<br><br><button class="btn" style="width:auto;padding:8px 20px;margin-top:8px;" onclick="nav('scan',document.querySelector('[data-panel=scan]'))">Run first scan</button></div></div>`;return;}
+  const schemas=DB.schemas[AC]||null;
+  const regen=DB.regenQueue[AC]||null;
+
+  if(!scans.length){
+    el.innerHTML=clientPills('setAC')+`<div class="pbox"><div class="empty">No scans for ${AC} yet.<br><br><button class="btn" style="width:auto;padding:8px 20px;margin-top:8px;" onclick="nav('scan',document.querySelector('[data-panel=scan]'))">Run first scan</button></div></div>`;
+    return;
+  }
+
   const lat=scans[scans.length-1],prev=scans.length>1?scans[scans.length-2]:null;
   const cited=lat.results.filter(r=>r.cited).length,total=lat.results.length,cr=total>0?Math.round((cited/total)*100):0;
   const kws=lat.keywords||[];
   const fkw=[...new Set(lat.results.flatMap(r=>r.keywords_found||[]).map(k=>k.toLowerCase()))];
   const khit=kws.filter(k=>fkw.some(f=>f.includes(k.toLowerCase())||k.toLowerCase().includes(f))).length;
-  let cd='',kd='';
+  const aeo=calcAEOScore(scans,schemas);
+
+  let cd='',kd='',scoreDelta='';
   if(prev){
     const pc=prev.results.filter(r=>r.cited).length,pt=prev.results.length,pr=pt>0?Math.round((pc/pt)*100):0,dd=cr-pr;
     cd=`<p class="metric-sub ${dd>=0?'up':'down'}">${dd>=0?'↑ +':'↓ '}${Math.abs(dd)}% vs last</p>`;
     const pkws=prev.keywords||[],pfkw=[...new Set(prev.results.flatMap(r=>r.keywords_found||[]).map(k=>k.toLowerCase()))];
     const phit=pkws.filter(k=>pfkw.some(f=>f.includes(k.toLowerCase())||k.toLowerCase().includes(f))).length,kdd=khit-phit;
     kd=`<p class="metric-sub ${kdd>=0?'up':'down'}">${kdd>=0?'↑ +':'↓ '}${Math.abs(kdd)} vs last</p>`;
-  } else {cd=`<p class="metric-sub">First scan</p>`;kd=`<p class="metric-sub">First scan</p>`;}
+    const prevAeo=calcAEOScore([prev],DB.schemas[AC]);
+    if(prevAeo&&aeo){const sd=aeo.score-prevAeo.score;scoreDelta=`<p class="metric-sub ${sd>=0?'up':'down'}">${sd>=0?'↑ +':'↓ '}${Math.abs(sd)} pts vs last</p>`;}
+  } else {
+    cd=`<p class="metric-sub">First scan</p>`;
+    kd=`<p class="metric-sub">First scan</p>`;
+    scoreDelta=`<p class="metric-sub">First scan</p>`;
+  }
 
-  const trendHtml=scans.length>1?`<div class="pbox" style="margin-bottom:12px;"><p class="sec-title">Citation rate trend</p><div class="chart-wrap"><canvas id="tChart" role="img" aria-label="Citation rate trend">Trend</canvas></div></div>`:'';
+  const regenBanner=regen?`<div class="alert-banner regen">
+    <div class="alert-icon">⚡</div>
+    <div style="flex:1;">
+      <div class="alert-title">New schema ready for review</div>
+      <div class="alert-desc">Auto-generated on ${new Date(regen.timestamp).toLocaleDateString('en-US',{month:'short',day:'numeric'})} after citation rate dropped to ${regen.triggerRate}%. Review before deploying.</div>
+      <div class="alert-actions">
+        <button class="alert-btn primary" onclick="approveRegen()">Review & approve schema</button>
+        <button class="alert-btn" onclick="dismissRegen()">Dismiss</button>
+      </div>
+    </div>
+  </div>`:'';
+
+  const dropAlert=cr<50&&scans.length>1?`<div class="alert-banner">
+    <div class="alert-icon">⚠</div>
+    <div style="flex:1;">
+      <div class="alert-title">Citation rate below 50% — auto-generating new schema</div>
+      <div class="alert-desc">Running schema regeneration in the background. Will appear here for your approval when ready.</div>
+    </div>
+  </div>`:'';
+
+  const trendHtml=scans.length>1?`<div class="pbox" style="margin-bottom:12px;"><p class="sec-title">AEO score trend</p><div class="chart-wrap"><canvas id="tChart" role="img" aria-label="AEO score trend">Trend</canvas></div></div>`:'';
   const kwHtml=kws.map(k=>{const hits=lat.results.filter(r=>(r.keywords_found||[]).some(f=>f.toLowerCase().includes(k.toLowerCase())||k.toLowerCase().includes(f.toLowerCase()))).length;const pct=total>0?Math.round((hits/total)*100):0;const col=pct>=70?'#16a34a':pct>=40?'var(--amber)':'var(--red)';return`<div class="bar-wrap"><span class="bar-label">${k}</span><div class="bar-bg"><div class="bar-fill" style="width:${pct}%;background:${col};"></div></div><span class="bar-pct">${pct}%</span></div>`;}).join('');
-  const histHtml=scans.slice().reverse().slice(0,5).map(s=>{const sc=s.results.filter(r=>r.cited).length,st=s.results.length,sr=st>0?Math.round((sc/st)*100):0,dt=new Date(s.timestamp).toLocaleDateString('en-US',{month:'short',day:'numeric'});return`<div class="hist-row"><span style="font-size:12px;color:var(--text2);">${dt}</span><span style="font-size:13px;font-family:var(--mono);font-weight:500;color:${sr>=60?'var(--green)':sr>=40?'var(--amber)':'var(--red)'};">${sr}%</span></div>`;}).join('');
+  const histHtml=scans.slice().reverse().slice(0,5).map(s=>{const sc=s.results.filter(r=>r.cited).length,st=s.results.length,sr=st>0?Math.round((sc/st)*100):0,dt=new Date(s.timestamp).toLocaleDateString('en-US',{month:'short',day:'numeric'});const sa=calcAEOScore([s],DB.schemas[AC]);return`<div class="hist-row"><span style="font-size:12px;color:var(--text2);">${dt}</span><div style="display:flex;align-items:center;gap:8px;"><span style="font-size:12px;color:var(--text3);">${sr}% cited</span><span style="font-size:13px;font-family:var(--mono);font-weight:500;color:${scoreColor(sa?.score||0)};">AEO ${sa?.score||'–'}</span></div></div>`;}).join('');
   const queryHtml=lat.results.map(r=>{const tags=kws.map(k=>{const f=(r.keywords_found||[]).some(ff=>ff.toLowerCase().includes(k.toLowerCase())||k.toLowerCase().includes(ff.toLowerCase()));return`<span class="kw ${f?'kf':'km'}">${f?'✓':'✗'} ${k}</span>`;}).join('');return`<div class="result-card"><div style="display:flex;align-items:flex-start;gap:10px;"><div class="result-icon ${r.cited?'ri-cited':'ri-miss'}">${r.cited?'C':'–'}</div><div style="flex:1;min-width:0;"><p style="font-size:13px;font-weight:500;margin-bottom:2px;">"${r.query}"</p><p style="font-size:11px;color:var(--text3);margin:0;">${r.cited?AC+' cited in response':'Not mentioned'}</p></div><span class="badge ${r.cited?'bc':'bm'}">${r.cited?'cited':'miss'}</span></div><div class="kw-row">${tags}</div>${r.snippet?`<div class="snippet">"${r.snippet.slice(0,100)}..."</div>`:''}</div>`;}).join('');
 
-  el.innerHTML=clientPills('setAC')+`<div class="metrics"><div class="metric"><p class="metric-label">AEO citation rate</p><p class="metric-val">${cr}%</p>${cd}</div><div class="metric"><p class="metric-label">Queries cited</p><p class="metric-val">${cited}/${total}</p><p class="metric-sub">this scan</p></div><div class="metric"><p class="metric-label">Keywords found</p><p class="metric-val">${khit}/${kws.length}</p>${kd}</div><div class="metric"><p class="metric-label">Total scans</p><p class="metric-val">${scans.length}</p><p class="metric-sub">all time</p></div></div>`+trendHtml+`<div class="two" style="margin-bottom:12px;"><div><p class="sec-title">Keyword coverage</p><div class="pbox" style="margin:0;">${kwHtml}</div></div><div><p class="sec-title">Scan history</p><div class="pbox" style="margin:0;">${histHtml}</div></div></div><p class="sec-title">Latest query results</p>${queryHtml}<div class="btn-row" style="margin-top:4px;"><button class="abtn primary" onclick="nav('schema',document.querySelector('[data-panel=schema]'))">Generate JSON-LD ↗</button><button class="abtn" onclick="nav('scan',document.querySelector('[data-panel=scan]'))">Run new scan ↗</button></div>`;
+  el.innerHTML=clientPills('setAC')+regenBanner+dropAlert+`
+    <div style="display:flex;align-items:stretch;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
+      <div class="pbox" style="flex:0 0 auto;margin:0;display:flex;align-items:center;gap:16px;padding:16px 20px;">
+        ${renderScoreRing(aeo?.score||0)}
+        <div>
+          <div class="aeo-ring-label">AEO Score</div>
+          <div class="aeo-ring-grade" style="color:${scoreColor(aeo?.score||0)};font-size:20px;font-weight:600;">Grade ${aeo?.grade||'–'}</div>
+          ${scoreDelta}
+          <div style="font-size:11px;color:var(--text3);margin-top:4px;">60% citations · 40% schema</div>
+        </div>
+      </div>
+      <div style="flex:1;display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px;">
+        <div class="metric"><p class="metric-label">Citation rate</p><p class="metric-val">${cr}%</p>${cd}</div>
+        <div class="metric"><p class="metric-label">Queries cited</p><p class="metric-val">${cited}/${total}</p><p class="metric-sub">this scan</p></div>
+        <div class="metric"><p class="metric-label">Keywords</p><p class="metric-val">${khit}/${kws.length}</p>${kd}</div>
+        <div class="metric"><p class="metric-label">Schema types</p><p class="metric-val">${Object.keys(schemas?.schemas||{}).length}/5</p><p class="metric-sub">completeness</p></div>
+      </div>
+    </div>
+    ${trendHtml}
+    <div class="two" style="margin-bottom:12px;">
+      <div><p class="sec-title">Keyword coverage</p><div class="pbox" style="margin:0;">${kwHtml}</div></div>
+      <div><p class="sec-title">Scan history</p><div class="pbox" style="margin:0;">${histHtml}</div></div>
+    </div>
+    <p class="sec-title">Latest query results</p>${queryHtml}
+    <div class="btn-row" style="margin-top:4px;">
+      <button class="abtn primary" onclick="nav('schema',document.querySelector('[data-panel=schema]'))">Generate JSON-LD ↗</button>
+      <button class="abtn" onclick="nav('competitors',document.querySelector('[data-panel=competitors]'))">View competitors ↗</button>
+      <button class="abtn" onclick="nav('scan',document.querySelector('[data-panel=scan]'))">Run new scan ↗</button>
+    </div>`;
 
-  if(scans.length>1){setTimeout(()=>{const cv=document.getElementById('tChart');if(!cv)return;if(tChart){tChart.destroy();tChart=null;}const tl=scans.map(s=>new Date(s.timestamp).toLocaleDateString('en-US',{month:'short',day:'numeric'}));const td=scans.map(s=>{const sc=s.results.filter(r=>r.cited).length,st=s.results.length;return st>0?Math.round((sc/st)*100):0;});tChart=new Chart(cv,{type:'line',data:{labels:tl,datasets:[{label:'Citation %',data:td,borderColor:'#3b82c4',backgroundColor:'rgba(59,130,196,0.06)',tension:0.3,pointBackgroundColor:'#3b82c4',pointRadius:3,fill:true,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:0,max:100,ticks:{callback:v=>v+'%',color:'#9aa5b4',font:{size:11}},grid:{color:'rgba(0,0,0,0.04)'}},x:{ticks:{color:'#9aa5b4',autoSkip:true,maxRotation:0,font:{size:11}},grid:{display:false}}}}});},80);}
+  if(scans.length>1){setTimeout(()=>{
+    const cv=document.getElementById('tChart');if(!cv)return;
+    if(tChart){tChart.destroy();tChart=null;}
+    const tl=scans.map(s=>new Date(s.timestamp).toLocaleDateString('en-US',{month:'short',day:'numeric'}));
+    const td=scans.map(s=>{const a=calcAEOScore([s],DB.schemas[AC]);return a?.score||0;});
+    tChart=new Chart(cv,{type:'line',data:{labels:tl,datasets:[{label:'AEO Score',data:td,borderColor:'#3b82c4',backgroundColor:'rgba(59,130,196,0.06)',tension:0.3,pointBackgroundColor:'#3b82c4',pointRadius:3,fill:true,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:0,max:100,ticks:{color:'#9aa5b4',font:{size:11}},grid:{color:'rgba(0,0,0,0.04)'}},x:{ticks:{color:'#9aa5b4',autoSkip:true,maxRotation:0,font:{size:11}},grid:{display:false}}}}});
+  },80);}
+
+  // Auto-trigger regen if citation rate below 50% and no pending regen
+  if(cr<50&&scans.length>1&&!DB.regenQueue[AC]){
+    setTimeout(()=>autoRegen(AC,cr),500);
+  }
 }
 
+/* ── AUTO REGENERATION ── */
+async function autoRegen(clientName,triggerRate){
+  const scans=DB.scans[clientName]||[];
+  if(!scans.length)return;
+  const lat=scans[scans.length-1];
+  const missed=lat.results.filter(r=>!r.cited).map(r=>r.query);
+  const fkw=[...new Set(lat.results.flatMap(r=>r.keywords_found||[]).map(k=>k.toLowerCase()))];
+  const mkw=(lat.keywords||[]).filter(k=>!fkw.some(f=>f.includes(k.toLowerCase())||k.toLowerCase().includes(f)));
+  const c=DB.clients[clientName]||{};
+  const rev=DB.reviews[clientName];
+  const revPhrases=(rev?.analysis?.positive_phrases||[]).slice(0,5).map(p=>p.phrase);
+  const revKW=rev?.analysis?.schema_keywords||[];
+  const allKW=[...new Set([...(lat.keywords||[]),...revKW])];
+  const revFAQs=rev?.analysis?.faq_suggestions||[];
+  const allRevs=[...(rev?.google?.reviews||[]),...(rev?.yelp?.reviews||[])];
+  const avgRating=allRevs.length>0?(allRevs.reduce((s,r)=>s+r.stars,0)/allRevs.length).toFixed(1):'4.5';
+  const totRevs=(rev?.google?.total||0)+(rev?.yelp?.total||0)||allRevs.length;
+
+  try{
+    const schemas={};
+    const tl={restaurant:'Restaurant',faqpage:'FAQPage',localbusiness:'LocalBusiness'};
+    for(const type of ['restaurant','faqpage','localbusiness']){
+      const code=await genType(c.name,type,c.location,allKW,missed,mkw,triggerRate,revPhrases,revFAQs,avgRating,totRevs);
+      if(code)schemas[tl[type]]=code;
+    }
+    DB.regenQueue[clientName]={timestamp:Date.now(),triggerRate,schemas};
+    await save();
+    renderDash();
+  }catch(e){console.error('Auto-regen failed:',e);}
+}
+
+async function approveRegen(){
+  const regen=DB.regenQueue[AC];
+  if(!regen)return;
+  DB.schemas[AC]={timestamp:Date.now(),schemas:regen.schemas};
+  delete DB.regenQueue[AC];
+  await save();
+  nav('schema',document.querySelector('[data-panel=schema]'));
+}
+
+async function dismissRegen(){
+  delete DB.regenQueue[AC];
+  await save();
+  renderDash();
+}
+
+/* ── COMPETITORS ── */
+function renderCompetitors(){
+  const el=document.getElementById('p-competitors');
+  const scans=DB.scans[AC]||[];
+  const compScans=DB.competitors[AC+'_scans']||{};
+  const comps=DB.competitors[AC]||[];
+
+  el.innerHTML=clientPills('setAC')+`
+    <div class="pbox" style="margin-bottom:12px;">
+      <p class="sec-title">Tracked competitors for ${AC}</p>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;">
+        ${[0,1,2].map(i=>`<div style="display:flex;align-items:center;gap:8px;">
+          <input class="inp" id="comp${i}" placeholder="Competitor ${i+1} name" value="${comps[i]||''}" style="flex:1;" />
+        </div>`).join('')}
+      </div>
+      <div class="btn-row" style="margin-top:0;">
+        <button class="btn" onclick="saveAndScanComps()">Save & scan competitors</button>
+        <button class="btn ghost" onclick="saveComps()">Save names only</button>
+      </div>
+    </div>
+    <div id="compResults">${renderCompResults(scans,compScans,comps)}</div>`;
+}
+
+function renderCompResults(clientScans,compScans,comps){
+  if(!clientScans.length) return `<div class="empty">Run a client scan first, then scan competitors to compare.</div>`;
+  const lat=clientScans[clientScans.length-1];
+  const queries=lat.results.map(r=>r.query);
+  const clientCited=lat.results.filter(r=>r.cited).length;
+  const clientRate=lat.results.length>0?Math.round((clientCited/lat.results.length)*100):0;
+  const clientAeo=calcAEOScore(clientScans,DB.schemas[AC]);
+
+  const rows=[{name:AC,rate:clientRate,aeo:clientAeo?.score||0,isClient:true}];
+  comps.filter(Boolean).forEach(comp=>{
+    const cs=compScans[comp]||[];
+    if(cs.length){
+      const cl=cs[cs.length-1];
+      const cc=cl.results.filter(r=>r.cited).length;
+      const cr=cl.results.length>0?Math.round((cc/cl.results.length)*100):0;
+      rows.push({name:comp,rate:cr,aeo:Math.round(cr*0.6),isClient:false});
+    } else {
+      rows.push({name:comp,rate:null,aeo:null,isClient:false});
+    }
+  });
+
+  const maxRate=Math.max(...rows.map(r=>r.rate||0),1);
+
+  const tableRows=rows.map(row=>{
+    const rateCell=row.rate!==null
+      ?`<div style="display:flex;align-items:center;gap:6px;"><span style="font-family:var(--mono);font-weight:500;color:${row.rate>=60?'var(--green)':row.rate>=40?'var(--amber)':'var(--red)'};">${row.rate}%</span><div class="comp-bar"><div class="comp-bar-fill" style="width:${Math.round((row.rate/maxRate)*100)}%;background:${row.rate>=60?'#16a34a':row.rate>=40?'#d97706':'#dc2626'};"></div></div></div>`
+      :`<span style="font-size:12px;color:var(--text3);">not scanned</span>`;
+    const aeoCell=row.aeo!==null
+      ?`<span style="font-family:var(--mono);font-weight:600;color:${scoreColor(row.aeo)};">${row.aeo}</span>`
+      :`<span style="font-size:12px;color:var(--text3);">–</span>`;
+    return`<tr ${row.isClient?'class="client-row-hl"':''}>
+      <td style="font-weight:${row.isClient?'600':'400'};${row.isClient?'color:var(--blue);':''}">
+        ${row.name}${row.isClient?` <span class="badge bc" style="font-size:10px;">your client</span>`:''}
+      </td>
+      <td>${rateCell}</td>
+      <td>${aeoCell}</td>
+    </tr>`;
+  }).join('');
+
+  const queryBreakdown=queries.map(q=>{
+    const clientCitedQ=lat.results.find(r=>r.query===q)?.cited;
+    const compResults=comps.filter(Boolean).map(comp=>{
+      const cs=compScans[comp]||[];
+      if(!cs.length)return`<td style="font-size:12px;color:var(--text3);">–</td>`;
+      const cl=cs[cs.length-1];
+      const cited=cl.results.find(r=>r.query===q)?.cited;
+      return`<td><span class="badge ${cited?'bc':'bm'}">${cited?'cited':'miss'}</span></td>`;
+    }).join('');
+    return`<tr>
+      <td style="font-size:12px;color:var(--text2);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">"${q}"</td>
+      <td><span class="badge ${clientCitedQ?'bc':'bm'}">${clientCitedQ?'cited':'miss'}</span></td>
+      ${compResults}
+    </tr>`;
+  }).join('');
+
+  const compHeaders=comps.filter(Boolean).map(c=>`<th>${c}</th>`).join('');
+
+  return`
+    <div class="pbox" style="margin-bottom:12px;">
+      <p class="sec-title">Citation rate comparison</p>
+      <table class="comp-grid">
+        <thead><tr><th>Restaurant</th><th>Citation rate</th><th>AEO score</th></tr></thead>
+        <tbody>${tableRows}</tbody>
+      </table>
+    </div>
+    ${queries.length?`<div class="pbox">
+      <p class="sec-title">Query-by-query breakdown</p>
+      <div style="overflow-x:auto;">
+        <table class="comp-grid">
+          <thead><tr><th>Query</th><th>${AC}</th>${compHeaders}</tr></thead>
+          <tbody>${queryBreakdown}</tbody>
+        </table>
+      </div>
+    </div>`:''}
+    <div class="btn-row">
+      <button class="abtn primary" onclick="saveAndScanComps()">↺ Rescan competitors</button>
+    </div>`;
+}
+
+async function saveComps(){
+  const comps=[0,1,2].map(i=>document.getElementById('comp'+i)?.value.trim()).filter(Boolean);
+  DB.competitors[AC]=comps;
+  await save();
+  renderCompetitors();
+}
+
+async function saveAndScanComps(){
+  const comps=[0,1,2].map(i=>document.getElementById('comp'+i)?.value.trim()).filter(Boolean);
+  DB.competitors[AC]=comps;
+  await save();
+
+  const clientScans=DB.scans[AC]||[];
+  if(!clientScans.length){alert('Run a client scan first so we have queries to compare.');return;}
+  const lat=clientScans[clientScans.length-1];
+  const queries=lat.results.map(r=>r.query);
+  const kws=lat.keywords||[];
+
+  document.getElementById('compResults').innerHTML=`<div class="thinking"><div class="spinner"></div>Scanning ${comps.length} competitor${comps.length>1?'s':''} across ${queries.length} queries...</div>`;
+
+  if(!DB.competitors[AC+'_scans'])DB.competitors[AC+'_scans']={};
+
+  for(const comp of comps){
+    const results=[];
+    for(const q of queries){
+      try{
+        const r=await doQ(comp,'',kws,q);
+        results.push(r);
+      }catch(e){results.push({query:q,cited:false,keywords_found:[],snippet:'',error:true});}
+    }
+    DB.competitors[AC+'_scans'][comp]=[{timestamp:Date.now(),results}];
+  }
+
+  await save();
+  document.getElementById('compResults').innerHTML=renderCompResults(clientScans,DB.competitors[AC+'_scans']||{},comps);
+}
+
+/* ── SCAN ── */
+function renderScan(){
+  const el=document.getElementById('p-scan');
+  const c=DB.clients[AC]||{};
+  el.innerHTML=clientPills('setAC')+`
+    <div class="pbox">
+      <p class="sec-title">Scan config</p>
+      <div class="two">
+        <div class="field" style="margin:0;"><label class="lbl">Restaurant</label><input class="inp" id="sName" value="${c.name||''}" /></div>
+        <div class="field" style="margin:0;"><label class="lbl">Location</label><input class="inp" id="sLoc" value="${c.location||''}" /></div>
+      </div>
+      <div class="field" style="margin-top:10px;"><label class="lbl">Keywords (comma-separated)</label><input class="inp" id="sKW" value="${c.keywords||''}" /></div>
+      <div class="field"><label class="lbl">Queries</label><div id="qBuilder"></div><button class="addbtn" onclick="addQ()">+ Add query</button></div>
+      <button class="btn" id="scanBtn" onclick="runScan()">↺ Run visibility scan</button>
+    </div>
+    <div id="scan-prog" style="display:none;margin-top:12px;">
+      <div class="prog-hd"><span style="font-size:12px;font-weight:500;" id="progTitle">Running scan...</span><span style="font-size:12px;font-family:var(--mono);color:var(--text3);" id="progCount">0/0</span></div>
+      <div class="prog-bg"><div class="prog-fill" id="progBar" style="width:0%"></div></div>
+      <div id="scanResults"></div>
+      <div id="scanSummary" style="display:none;"></div>
+      <div id="scanActions" style="display:none;"></div>
+    </div>`;
+  renderQB();
+}
+function renderQB(){const qb=document.getElementById('qBuilder');if(!qb)return;qb.innerHTML=qInputs.map((q,i)=>`<div class="qitem"><input class="qinp" value="${q}" oninput="qInputs[${i}]=this.value" onchange="qInputs[${i}]=this.value" /><button class="rmbtn" onclick="rmQ(${i})">×</button></div>`).join('');}
+function addQ(){qInputs.push('');renderQB();const ins=document.querySelectorAll('.qinp');ins[ins.length-1].focus();}
+function rmQ(i){qInputs.splice(i,1);renderQB();}
+
+async function runScan(){
+  const name=document.getElementById('sName').value.trim(),loc=document.getElementById('sLoc').value.trim();
+  const kws=document.getElementById('sKW').value.split(',').map(k=>k.trim()).filter(Boolean);
+  const qs=qInputs.filter(q=>q.trim());
+  if(!name||!qs.length){alert('Add a restaurant name and at least one query.');return;}
+  const btn=document.getElementById('scanBtn');btn.disabled=true;btn.textContent='Scanning...';
+  document.getElementById('scan-prog').style.display='block';
+  ['scanSummary','scanActions'].forEach(id=>document.getElementById(id).style.display='none');
+  document.getElementById('progTitle').textContent='Running scan...';
+  document.getElementById('progCount').textContent=`0/${qs.length}`;
+  document.getElementById('progBar').style.width='0%';
+  document.getElementById('scanResults').innerHTML='';
+  const results=[];
+  for(let i=0;i<qs.length;i++){
+    const q=qs[i],rid=`sr${i}`;
+    document.getElementById('scanResults').insertAdjacentHTML('beforeend',`<div class="result-card" id="${rid}"><div style="display:flex;align-items:center;gap:10px;"><div class="result-icon ri-run"><div class="spinner"></div></div><div style="flex:1;"><p style="font-size:13px;font-weight:500;margin:0;">"${q}"</p><p style="font-size:11px;color:var(--text3);margin:0;">Querying Claude...</p></div><span class="badge br">running</span></div></div>`);
+    document.getElementById(rid).scrollIntoView({behavior:'smooth',block:'nearest'});
+    try{
+      const r=await doQ(name,loc,kws,q);results.push(r);
+      const tags=kws.map(k=>{const f=(r.keywords_found||[]).some(ff=>ff.toLowerCase().includes(k.toLowerCase())||k.toLowerCase().includes(ff.toLowerCase()));return`<span class="kw ${f?'kf':'km'}">${f?'✓':'✗'} ${k}</span>`;}).join('');
+      document.getElementById(rid).innerHTML=`<div style="display:flex;align-items:flex-start;gap:10px;"><div class="result-icon ${r.cited?'ri-cited':'ri-miss'}">${r.cited?'C':'–'}</div><div style="flex:1;min-width:0;"><p style="font-size:13px;font-weight:500;margin-bottom:2px;">"${q}"</p><p style="font-size:11px;color:var(--text3);margin:0;">${r.cited?name+' cited in response':'Not mentioned'}</p></div><span class="badge ${r.cited?'bc':'bm'}">${r.cited?'cited':'miss'}</span></div><div class="kw-row">${tags}</div>${r.snippet?`<div class="snippet">"${r.snippet.slice(0,100)}..."</div>`:''}`;
+    }catch(e){results.push({query:q,cited:false,keywords_found:[],snippet:'',error:true});document.getElementById(rid).innerHTML=`<div style="display:flex;align-items:center;gap:10px;"><div class="result-icon" style="background:#fee2e2;color:var(--red);">!</div><p style="font-size:12px;color:var(--red);">Error: ${e.message}</p></div>`;}
+    const done=i+1;document.getElementById('progCount').textContent=`${done}/${qs.length}`;document.getElementById('progBar').style.width=`${Math.round((done/qs.length)*100)}%`;
+  }
+  const cited=results.filter(r=>r.cited).length,total=results.length,cr=total>0?Math.round((cited/total)*100):0;
+  const fkw=[...new Set(results.flatMap(r=>r.keywords_found||[]).map(k=>k.toLowerCase()))];
+  const khit=kws.filter(k=>fkw.some(f=>f.includes(k.toLowerCase())||k.toLowerCase().includes(f))).length;
+  if(!DB.scans[AC])DB.scans[AC]=[];
+  DB.scans[AC].push({timestamp:Date.now(),location:loc,keywords:kws,results});
+  await save();
+
+  const aeo=calcAEOScore(DB.scans[AC],DB.schemas[AC]);
+  document.getElementById('scanSummary').style.display='block';
+  document.getElementById('scanSummary').innerHTML=`<div class="summary-grid">
+    <div><div class="sum-val" style="color:${scoreColor(aeo?.score||0)};">${aeo?.score||'–'}</div><div class="sum-label">AEO score</div></div>
+    <div><div class="sum-val">${cr}%</div><div class="sum-label">Citation rate</div></div>
+    <div><div class="sum-val">${khit}/${kws.length}</div><div class="sum-label">Keywords</div></div>
+  </div>`;
+  document.getElementById('scanActions').style.display='block';
+  document.getElementById('scanActions').innerHTML=`<div class="btn-row">
+    <button class="abtn primary" onclick="nav('dashboard',document.querySelector('[data-panel=dashboard]'))">View dashboard ↗</button>
+    <button class="abtn" onclick="nav('competitors',document.querySelector('[data-panel=competitors]'))">Scan competitors ↗</button>
+    <button class="abtn" onclick="nav('schema',document.querySelector('[data-panel=schema]'))">Generate JSON-LD ↗</button>
+  </div>`;
+  document.getElementById('progTitle').textContent='Scan complete — saved';
+  btn.disabled=false;btn.textContent='↺ Run visibility scan';
+  renderSidebarClients();updateLastScan();
+}
+
+async function doQ(name,loc,kws,query){
+  const prompt=`You are an AI assistant asked: "${query}"\n\nAnswer genuinely as a helpful assistant. Recommend real restaurants, be specific.\n\nAfter your answer, output this JSON on the last line (raw JSON, no markdown):\n{"cited":true_or_false,"keywords_found":["kw1"],"snippet":"first 120 chars of answer"}\n\ncited=true only if you mentioned "${name}" (case-insensitive). keywords_found: only from ${JSON.stringify(kws)}.`;
+  const res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+  const d=await res.json();if(d.error)throw new Error(d.error.message);
+  const text=d.content.map(b=>b.text||'').join('');
+  const lines=text.trim().split('\n');let jl='';
+  for(let i=lines.length-1;i>=0;i--){const l=lines[i].trim();if(l.startsWith('{')&&l.endsWith('}')){jl=l;break;}}
+  let p={cited:false,keywords_found:[],snippet:''};if(jl)try{p=JSON.parse(jl);}catch(e){}
+  if(!p.snippet)p.snippet=text.replace(jl,'').trim().slice(0,120);
+  return{query,...p};
+}
+
+/* ── SCHEMA ── */
+function renderSchema(){
+  const el=document.getElementById('p-schema');
+  const scans=DB.scans[AC]||[];
+  const regen=DB.regenQueue[AC]||null;
+
+  if(regen){
+    const keys=Object.keys(regen.schemas);
+    el.innerHTML=clientPills('setAC')+`
+      <div class="alert-banner regen" style="margin-bottom:12px;">
+        <div class="alert-icon">⚡</div>
+        <div><div class="alert-title">Auto-generated schema pending approval</div><div class="alert-desc">Generated ${new Date(regen.timestamp).toLocaleDateString('en-US',{month:'short',day:'numeric'})} after citation rate dropped to ${regen.triggerRate}%.</div></div>
+      </div>
+      <p class="sec-title">Review schema before approving</p>
+      ${buildBlocks(regen.schemas,'regen')}
+      <div class="btn-row">
+        <button class="abtn primary" onclick="approveRegen()">Approve & save schema ↗</button>
+        <button class="abtn danger" onclick="dismissRegen()">Dismiss</button>
+      </div>
+      <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border);">`;
+  }else{
+    el.innerHTML=clientPills('setAC');
+  }
+
+  if(!scans.length){
+    document.getElementById('p-schema').innerHTML+=`<div class="pbox"><div class="empty">Run a scan first to identify gaps.<br><br><button class="btn" style="width:auto;padding:8px 20px;margin-top:8px;" onclick="nav('scan',document.querySelector('[data-panel=scan]'))">Run scan</button></div></div>`;
+    if(regen)document.getElementById('p-schema').innerHTML+='</div>';
+    return;
+  }
+
+  const lat=scans[scans.length-1];
+  const missed=lat.results.filter(r=>!r.cited).map(r=>r.query);
+  const fkw=[...new Set(lat.results.flatMap(r=>r.keywords_found||[]).map(k=>k.toLowerCase()))];
+  const mkw=(lat.keywords||[]).filter(k=>!fkw.some(f=>f.includes(k.toLowerCase())||k.toLowerCase().includes(f)));
+  const cr=lat.results.length>0?Math.round((lat.results.filter(r=>r.cited).length/lat.results.length)*100):0;
+  const c=DB.clients[AC]||{},rev=DB.reviews[AC];
+  const revPhrases=(rev?.analysis?.positive_phrases||[]).slice(0,5).map(p=>p.phrase);
+  const revKW=rev?.analysis?.schema_keywords||[];
+  const allKW=[...new Set([...(lat.keywords||[]),...revKW])];
+  const revFAQs=rev?.analysis?.faq_suggestions||[];
+  const allRevs=[...(rev?.google?.reviews||[]),...(rev?.yelp?.reviews||[])];
+  const avgRating=allRevs.length>0?(allRevs.reduce((s,r)=>s+r.stars,0)/allRevs.length).toFixed(1):'4.5';
+  const totRevs=(rev?.google?.total||0)+(rev?.yelp?.total||0)||allRevs.length;
+  const saved=DB.schemas[AC];
+
+  const schemaHtml=`
+    <div class="pbox" style="margin-bottom:12px;">
+      <p class="sec-title">Gap analysis</p>
+      <div class="two">
+        <div style="background:var(--panel2);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;">
+          <p style="font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;">Uncited queries (${missed.length})</p>
+          ${missed.length>0?missed.map(q=>`<div style="display:flex;gap:7px;margin-bottom:5px;font-size:12px;color:var(--text2);align-items:flex-start;"><span style="color:var(--red);flex-shrink:0;">✗</span>${q}</div>`).join(''):`<p style="font-size:12px;color:var(--green);">All queries cited</p>`}
+        </div>
+        <div style="background:var(--panel2);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;">
+          <p style="font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;">Missing keywords (${mkw.length})</p>
+          ${mkw.length>0?mkw.map(k=>`<div style="display:flex;gap:7px;margin-bottom:5px;font-size:12px;color:var(--text2);"><span style="color:var(--red);">✗</span>${k}</div>`).join(''):`<p style="font-size:12px;color:var(--green);">All keywords found</p>`}
+        </div>
+      </div>
+      ${revPhrases.length>0?`<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);"><p style="font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:7px;">Review phrases to inject</p><div style="display:flex;flex-wrap:wrap;gap:5px;">${revPhrases.map(p=>`<span style="font-size:11px;padding:3px 9px;border-radius:100px;background:var(--blue-light);color:var(--blue);border:1px solid var(--blue-mid);font-weight:500;">${p}</span>`).join('')}</div></div>`:''}
+    </div>
+    <div class="pbox" style="margin-bottom:12px;">
+      <p class="sec-title">Schema types</p>
+      ${['restaurant','faqpage','localbusiness','menu','breadcrumb'].map(k=>{
+        const labels={restaurant:'Restaurant schema',faqpage:'FAQPage schema',localbusiness:'LocalBusiness schema',menu:'Menu schema',breadcrumb:'BreadcrumbList'};
+        const descs={restaurant:'Core identity, cuisine, hours, address',faqpage:'Targets missed queries as Q&A pairs',localbusiness:'Geo, maps, neighborhood context',menu:'Dishes, prices, descriptions',breadcrumb:'Site structure for AI navigation'};
+        const on=schToggles[k];
+        return`<div class="toggle-row"><div class="toggle-info"><div class="toggle-name">${labels[k]}</div><div class="toggle-desc">${descs[k]}</div></div><div class="tog ${on?'on':''}" onclick="togSch('${k}',this)"><div class="tog-k"></div></div></div>`;
+      }).join('')}
+    </div>
+    <button class="btn" id="genBtn" onclick="genSchema()">Generate JSON-LD${revPhrases.length>0?' (review-enriched)':''}</button>
+    <div id="schemaOut" style="margin-top:12px;">${saved?buildSaved(saved):''}</div>`;
+
+  if(regen){
+    document.getElementById('p-schema').innerHTML+=schemaHtml+'</div>';
+  } else {
+    document.getElementById('p-schema').innerHTML+=schemaHtml;
+  }
+}
+
+function togSch(k,el){schToggles[k]=!schToggles[k];el.classList.toggle('on');el.querySelector('.tog-k').style.left=schToggles[k]?'18px':'2px';}
+function buildSaved(saved){const keys=Object.keys(saved.schemas);if(!keys.length)return'';const dt=new Date(saved.timestamp).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});return`<div><p class="sec-title" style="margin-bottom:10px;">Saved schema · ${dt}</p>${buildBlocks(saved.schemas,'s')}</div>`;}
+function buildBlocks(schemas,prefix){const keys=Object.keys(schemas);if(!keys.length)return'';return`<div class="stabs" id="stabs_${prefix}">${keys.map((k,i)=>`<button class="stab ${i===0?'active':''}" onclick="switchStab('${prefix}',${i},this)">${k}</button>`).join('')}</div>${keys.map((k,i)=>`<div id="stab_${prefix}_${i}" style="display:${i===0?'block':'none'};"><div class="code-wrap"><textarea class="code-box" readonly rows="12">${esc(schemas[k])}</textarea><button class="copy-btn" onclick="cpCode('stab_${prefix}_${i}')">Copy</button></div></div>`).join('')}`;}
+function switchStab(prefix,idx,btn){const te=document.getElementById('stabs_'+prefix);if(te)te.querySelectorAll('.stab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');for(let j=0;j<8;j++){const e=document.getElementById(`stab_${prefix}_${j}`);if(e)e.style.display=j===idx?'block':'none';}}
+function cpCode(blockId){const el=document.querySelector(`#${blockId} textarea`);if(!el)return;navigator.clipboard.writeText(el.value).catch(()=>{el.select();document.execCommand('copy');});}
+
+async function genSchema(){
+  const scans=DB.scans[AC]||[];if(!scans.length)return;
+  const enabled=Object.keys(schToggles).filter(k=>schToggles[k]);
+  if(!enabled.length){alert('Enable at least one schema type.');return;}
+  const lat=scans[scans.length-1];
+  const missed=lat.results.filter(r=>!r.cited).map(r=>r.query);
+  const fkw=[...new Set(lat.results.flatMap(r=>r.keywords_found||[]).map(k=>k.toLowerCase()))];
+  const mkw=(lat.keywords||[]).filter(k=>!fkw.some(f=>f.includes(k.toLowerCase())||k.toLowerCase().includes(f)));
+  const cr=lat.results.length>0?Math.round((lat.results.filter(r=>r.cited).length/lat.results.length)*100):0;
+  const c=DB.clients[AC]||{},rev=DB.reviews[AC];
+  const revPhrases=(rev?.analysis?.positive_phrases||[]).slice(0,5).map(p=>p.phrase);
+  const revKW=rev?.analysis?.schema_keywords||[];
+  const allKW=[...new Set([...(lat.keywords||[]),...revKW])];
+  const revFAQs=rev?.analysis?.faq_suggestions||[];
+  const allRevs=[...(rev?.google?.reviews||[]),...(rev?.yelp?.reviews||[])];
+  const avgRating=allRevs.length>0?(allRevs.reduce((s,r)=>s+r.stars,0)/allRevs.length).toFixed(1):'4.5';
+  const totRevs=(rev?.google?.total||0)+(rev?.yelp?.total||0)||allRevs.length;
+  document.getElementById('schemaOut').innerHTML=`<div class="thinking"><div class="spinner"></div>Generating ${enabled.length} schema type${enabled.length>1?'s':''}${revPhrases.length>0?' with review intelligence':''}...</div>`;
+  document.getElementById('genBtn').disabled=true;
+  try{
+    const schemas={};
+    const tl={restaurant:'Restaurant',faqpage:'FAQPage',localbusiness:'LocalBusiness',menu:'Menu',breadcrumb:'BreadcrumbList'};
+    for(const type of enabled){const code=await genType(c.name,type,c.location,allKW,missed,mkw,cr,revPhrases,revFAQs,avgRating,totRevs);if(code)schemas[tl[type]]=code;}
+    DB.schemas[AC]={timestamp:Date.now(),schemas};await save();
+    const imps=[];
+    if(enabled.includes('faqpage')&&missed.length>0)imps.push({t:`${missed.length} uncited quer${missed.length>1?'ies':'y'} → FAQ entries`,d:'Each becomes a Q&A that AI surfaces directly'});
+    if(revPhrases.length>0)imps.push({t:'Review phrases injected into descriptions',d:`"${revPhrases[0]}" — exact language AI models pull`});
+    if(totRevs>0)imps.push({t:`AggregateRating: ${avgRating} from ${totRevs} reviews`,d:'Structured social proof boosts citation confidence'});
+    const newAeo=calcAEOScore(DB.scans[AC],DB.schemas[AC]);
+    document.getElementById('schemaOut').innerHTML=`
+      <div style="margin-top:12px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <p class="sec-title" style="margin:0;">Generated schema</p>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-size:11px;color:var(--green);font-family:var(--mono);font-weight:500;">${Object.keys(schemas).length} blocks ready</span>
+            ${newAeo?`<span style="font-size:12px;font-weight:600;color:${scoreColor(newAeo.score)};font-family:var(--mono);">AEO ${newAeo.score}</span>`:''}
+          </div>
+        </div>
+        ${imps.length>0?`<div class="pbox" style="margin-bottom:12px;">${imps.map(i=>`<div class="imp-item"><div class="imp-dot"></div><div><div class="imp-title">${i.t}</div><div class="imp-desc">${i.d}</div></div></div>`).join('')}</div>`:''}
+        ${buildBlocks(schemas,'g')}
+        <div class="btn-row">
+          <button class="abtn primary" onclick="alert('Copy the schema above and paste it into a script tag in your site head.')">Deploy to site ↗</button>
+          <button class="abtn" onclick="nav('scan',document.querySelector('[data-panel=scan]'))">Re-scan to verify ↗</button>
+        </div>
+      </div>`;
+  }catch(e){document.getElementById('schemaOut').innerHTML=`<div class="pbox"><p style="font-size:12px;color:var(--red);">Error: ${e.message}</p></div>`;}
+  document.getElementById('genBtn').disabled=false;document.getElementById('genBtn').textContent='Regenerate schema';
+}
+
+async function genType(name,type,loc,kws,missed,mkw,cr,revPhrases,revFAQs,avgRating,totRevs){
+  const ps=revPhrases.length>0?`\nInject these exact review phrases: ${revPhrases.join(', ')}`:'';
+  const rs=totRevs>0?`\naggregateRating: ratingValue ${avgRating}, reviewCount ${totRevs}`:'';
+  const prompts={
+    restaurant:`JSON-LD Restaurant schema for "${name}" in ${loc}.\nInclude @context, @type, name, description (keywords: ${kws.join(', ')}), address, telephone, url, servesCuisine, priceRange, openingHours, aggregateRating.${ps}${rs}\nCitation rate is ${cr}% — make description rich and keyword-dense.\nReturn ONLY valid JSON-LD.`,
+    faqpage:`JSON-LD FAQPage for "${name}" in ${loc}.\nFAQ entries for each uncited query:\n${missed.map((q,i)=>`${i+1}. "${q}"`).join('\n')}\nAlso for: ${mkw.join(', ')}.${revFAQs.length>0?'\nIncorporate:\n'+revFAQs.map(f=>`Q: ${f.question}\nA: ${f.answer}`).join('\n'):''}\nEvery answer must naturally mention "${name}". Return ONLY valid JSON-LD FAQPage.`,
+    localbusiness:`JSON-LD LocalBusiness for "${name}" in ${loc}.\n@type [LocalBusiness,Restaurant,FoodEstablishment], full PostalAddress, geo, telephone, url, openingHoursSpecification, paymentAccepted, priceRange, amenityFeature, areaServed.${rs}\nReturn ONLY valid JSON-LD.`,
+    menu:`JSON-LD Menu for "${name}" in ${loc}.\n3 sections, 3-4 items each with MenuSection/MenuItem, name, description, offers with price.${ps}\nReturn ONLY valid JSON-LD.`,
+    breadcrumb:`JSON-LD BreadcrumbList for "${name}" website.\nHome, Menu, Reservations, About, Contact.\nReturn ONLY valid JSON-LD.`
+  };
+  const res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompts[type]}]})});
+  const d=await res.json();if(d.error)throw new Error(d.error.message);
+  let t=d.content.map(b=>b.text||'').join('').trim().replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/```\s*$/,'').trim();
+  try{return JSON.stringify(JSON.parse(t),null,2);}catch(e){return t;}
+}
+
+/* ── REVIEWS ── */
 function renderRev(){
   const el=document.getElementById('p-reviews');
   const c=DB.clients[AC]||{},rev=DB.reviews[AC];
@@ -385,137 +977,41 @@ async function fetchYelp(name,loc,key){
   return{rating:biz.rating,total:biz.review_count,reviews:(rd.reviews||[]).map(rv=>({stars:rv.rating,text:rv.text,source:'yelp'}))};
 }
 
-function renderScan(){
-  const el=document.getElementById('p-scan');
-  const c=DB.clients[AC]||{};
-  el.innerHTML=clientPills('setAC')+`<div class="pbox"><p class="sec-title">Scan config</p><div class="two"><div class="field" style="margin:0;"><label class="lbl">Restaurant</label><input class="inp" id="sName" value="${c.name||''}" /></div><div class="field" style="margin:0;"><label class="lbl">Location</label><input class="inp" id="sLoc" value="${c.location||''}" /></div></div><div class="field" style="margin-top:10px;"><label class="lbl">Keywords (comma-separated)</label><input class="inp" id="sKW" value="${c.keywords||''}" /></div><div class="field"><label class="lbl">Queries</label><div id="qBuilder"></div><button class="addbtn" onclick="addQ()">+ Add query</button></div><button class="btn" id="scanBtn" onclick="runScan()">↺ Run visibility scan</button></div><div id="scan-prog" style="display:none;margin-top:12px;"><div class="prog-hd"><span style="font-size:12px;font-weight:500;" id="progTitle">Running scan...</span><span style="font-size:12px;font-family:var(--mono);color:var(--text3);" id="progCount">0/0</span></div><div class="prog-bg"><div class="prog-fill" id="progBar" style="width:0%"></div></div><div id="scanResults"></div><div id="scanSummary" style="display:none;"></div><div id="scanActions" style="display:none;"></div></div>`;
-  renderQB();
-}
-function renderQB(){const qb=document.getElementById('qBuilder');if(!qb)return;qb.innerHTML=qInputs.map((q,i)=>`<div class="qitem"><input class="qinp" value="${q}" oninput="qInputs[${i}]=this.value" onchange="qInputs[${i}]=this.value" /><button class="rmbtn" onclick="rmQ(${i})">×</button></div>`).join('');}
-function addQ(){qInputs.push('');renderQB();const ins=document.querySelectorAll('.qinp');ins[ins.length-1].focus();}
-function rmQ(i){qInputs.splice(i,1);renderQB();}
-
-async function runScan(){
-  const name=document.getElementById('sName').value.trim(),loc=document.getElementById('sLoc').value.trim();
-  const kws=document.getElementById('sKW').value.split(',').map(k=>k.trim()).filter(Boolean);
-  const qs=qInputs.filter(q=>q.trim());
-  if(!name||!qs.length){alert('Add a restaurant name and at least one query.');return;}
-  const btn=document.getElementById('scanBtn');btn.disabled=true;btn.textContent='Scanning...';
-  document.getElementById('scan-prog').style.display='block';
-  ['scanSummary','scanActions'].forEach(id=>document.getElementById(id).style.display='none');
-  document.getElementById('progTitle').textContent='Running scan...';
-  document.getElementById('progCount').textContent=`0/${qs.length}`;
-  document.getElementById('progBar').style.width='0%';
-  document.getElementById('scanResults').innerHTML='';
-  const results=[];
-  for(let i=0;i<qs.length;i++){
-    const q=qs[i],rid=`sr${i}`;
-    document.getElementById('scanResults').insertAdjacentHTML('beforeend',`<div class="result-card" id="${rid}"><div style="display:flex;align-items:center;gap:10px;"><div class="result-icon ri-run"><div class="spinner"></div></div><div style="flex:1;"><p style="font-size:13px;font-weight:500;margin:0;">"${q}"</p><p style="font-size:11px;color:var(--text3);margin:0;">Querying Claude...</p></div><span class="badge br">running</span></div></div>`);
-    document.getElementById(rid).scrollIntoView({behavior:'smooth',block:'nearest'});
-    try{
-      const r=await doQ(name,loc,kws,q);results.push(r);
-      const tags=kws.map(k=>{const f=(r.keywords_found||[]).some(ff=>ff.toLowerCase().includes(k.toLowerCase())||k.toLowerCase().includes(ff.toLowerCase()));return`<span class="kw ${f?'kf':'km'}">${f?'✓':'✗'} ${k}</span>`;}).join('');
-      document.getElementById(rid).innerHTML=`<div style="display:flex;align-items:flex-start;gap:10px;"><div class="result-icon ${r.cited?'ri-cited':'ri-miss'}">${r.cited?'C':'–'}</div><div style="flex:1;min-width:0;"><p style="font-size:13px;font-weight:500;margin-bottom:2px;">"${q}"</p><p style="font-size:11px;color:var(--text3);margin:0;">${r.cited?name+' cited in response':'Not mentioned'}</p></div><span class="badge ${r.cited?'bc':'bm'}">${r.cited?'cited':'miss'}</span></div><div class="kw-row">${tags}</div>${r.snippet?`<div class="snippet">"${r.snippet.slice(0,100)}..."</div>`:''}`;
-    }catch(e){results.push({query:q,cited:false,keywords_found:[],snippet:'',error:true});document.getElementById(rid).innerHTML=`<div style="display:flex;align-items:center;gap:10px;"><div class="result-icon" style="background:#fee2e2;color:var(--red);">!</div><p style="font-size:12px;color:var(--red);">Error: ${e.message}</p></div>`;}
-    const done=i+1;document.getElementById('progCount').textContent=`${done}/${qs.length}`;document.getElementById('progBar').style.width=`${Math.round((done/qs.length)*100)}%`;
-  }
-  const cited=results.filter(r=>r.cited).length,total=results.length,cr=total>0?Math.round((cited/total)*100):0;
-  const fkw=[...new Set(results.flatMap(r=>r.keywords_found||[]).map(k=>k.toLowerCase()))];
-  const khit=kws.filter(k=>fkw.some(f=>f.includes(k.toLowerCase())||k.toLowerCase().includes(f))).length;
-  document.getElementById('scanSummary').style.display='block';
-  document.getElementById('scanSummary').innerHTML=`<div class="summary-grid"><div><div class="sum-val">${cr}%</div><div class="sum-label">Citation rate</div></div><div><div class="sum-val">${cited}/${total}</div><div class="sum-label">Cited</div></div><div><div class="sum-val">${khit}/${kws.length}</div><div class="sum-label">Keywords</div></div></div>`;
-  if(!DB.scans[AC])DB.scans[AC]=[];
-  DB.scans[AC].push({timestamp:Date.now(),location:loc,keywords:kws,results});await save();
-  document.getElementById('scanActions').style.display='block';
-  document.getElementById('scanActions').innerHTML=`<div class="btn-row"><button class="abtn primary" onclick="nav('schema',document.querySelector('[data-panel=schema]'))">Generate JSON-LD ↗</button><button class="abtn" onclick="nav('dashboard',document.querySelector('[data-panel=dashboard]'))">View dashboard ↗</button></div>`;
-  document.getElementById('progTitle').textContent='Scan complete — saved to dashboard';
-  btn.disabled=false;btn.textContent='↺ Run visibility scan';
-  renderSidebarClients();updateLastScan();
-}
-async function doQ(name,loc,kws,query){
-  const prompt=`You are an AI assistant asked: "${query}"\n\nAnswer genuinely as a helpful assistant. Recommend real restaurants, be specific.\n\nAfter your answer, output this JSON on the last line (raw JSON, no markdown):\n{"cited":true_or_false,"keywords_found":["kw1"],"snippet":"first 120 chars of answer"}\n\ncited=true only if you mentioned "${name}" (case-insensitive). keywords_found: only from ${JSON.stringify(kws)}.`;
-  const res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
-  const d=await res.json();if(d.error)throw new Error(d.error.message);
-  const text=d.content.map(b=>b.text||'').join('');
-  const lines=text.trim().split('\n');let jl='';
-  for(let i=lines.length-1;i>=0;i--){const l=lines[i].trim();if(l.startsWith('{')&&l.endsWith('}')){jl=l;break;}}
-  let p={cited:false,keywords_found:[],snippet:''};if(jl)try{p=JSON.parse(jl);}catch(e){}
-  if(!p.snippet)p.snippet=text.replace(jl,'').trim().slice(0,120);
-  return{query,...p};
-}
-
-function renderSchema(){
-  const el=document.getElementById('p-schema');
-  const scans=DB.scans[AC]||[];
-  if(!scans.length){el.innerHTML=clientPills('setAC')+`<div class="pbox"><div class="empty">Run a scan first to identify gaps.<br><br><button class="btn" style="width:auto;padding:8px 20px;margin-top:8px;" onclick="nav('scan',document.querySelector('[data-panel=scan]'))">Run scan</button></div></div>`;return;}
-  const lat=scans[scans.length-1];
-  const missed=lat.results.filter(r=>!r.cited).map(r=>r.query);
-  const fkw=[...new Set(lat.results.flatMap(r=>r.keywords_found||[]).map(k=>k.toLowerCase()))];
-  const mkw=(lat.keywords||[]).filter(k=>!fkw.some(f=>f.includes(k.toLowerCase())||k.toLowerCase().includes(f)));
-  const cr=lat.results.length>0?Math.round((lat.results.filter(r=>r.cited).length/lat.results.length)*100):0;
-  const c=DB.clients[AC]||{},rev=DB.reviews[AC];
-  const revPhrases=(rev?.analysis?.positive_phrases||[]).slice(0,5).map(p=>p.phrase);
-  const revKW=rev?.analysis?.schema_keywords||[];
-  const allKW=[...new Set([...(lat.keywords||[]),...revKW])];
-  const revFAQs=rev?.analysis?.faq_suggestions||[];
-  const allRevs=[...(rev?.google?.reviews||[]),...(rev?.yelp?.reviews||[])];
-  const avgRating=allRevs.length>0?(allRevs.reduce((s,r)=>s+r.stars,0)/allRevs.length).toFixed(1):'4.5';
-  const totRevs=(rev?.google?.total||0)+(rev?.yelp?.total||0)||allRevs.length;
-  const saved=DB.schemas[AC];
-
-  el.innerHTML=clientPills('setAC')+`<div class="pbox" style="margin-bottom:12px;"><p class="sec-title">Gap analysis</p><div class="two"><div style="background:var(--panel2);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;"><p style="font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;">Uncited queries (${missed.length})</p>${missed.length>0?missed.map(q=>`<div style="display:flex;gap:7px;margin-bottom:5px;font-size:12px;color:var(--text2);align-items:flex-start;"><span style="color:var(--red);flex-shrink:0;">✗</span>${q}</div>`).join(''):`<p style="font-size:12px;color:var(--green);">All queries cited</p>`}</div><div style="background:var(--panel2);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;"><p style="font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;">Missing keywords (${mkw.length})</p>${mkw.length>0?mkw.map(k=>`<div style="display:flex;gap:7px;margin-bottom:5px;font-size:12px;color:var(--text2);"><span style="color:var(--red);">✗</span>${k}</div>`).join(''):`<p style="font-size:12px;color:var(--green);">All keywords found</p>`}</div></div>${revPhrases.length>0?`<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);"><p style="font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:7px;">Review phrases to inject</p><div style="display:flex;flex-wrap:wrap;gap:5px;">${revPhrases.map(p=>`<span style="font-size:11px;padding:3px 9px;border-radius:100px;background:var(--blue-light);color:var(--blue);border:1px solid var(--blue-mid);font-weight:500;">${p}</span>`).join('')}</div></div>`:''}</div><div class="pbox" style="margin-bottom:12px;"><p class="sec-title">Schema types</p>${['restaurant','faqpage','localbusiness','menu','breadcrumb'].map(k=>{const labels={restaurant:'Restaurant schema',faqpage:'FAQPage schema',localbusiness:'LocalBusiness schema',menu:'Menu schema',breadcrumb:'BreadcrumbList'};const descs={restaurant:'Core identity, cuisine, hours, address',faqpage:'Targets missed queries as Q&A pairs',localbusiness:'Geo, maps, neighborhood context',menu:'Dishes, prices, descriptions',breadcrumb:'Site structure for AI navigation'};const on=schToggles[k];return`<div class="toggle-row"><div class="toggle-info"><div class="toggle-name">${labels[k]}</div><div class="toggle-desc">${descs[k]}</div></div><div class="tog ${on?'on':''}" onclick="togSch('${k}',this)"><div class="tog-k"></div></div></div>`;}).join('')}</div><button class="btn" id="genBtn" onclick="genSchema()">Generate JSON-LD${revPhrases.length>0?' (review-enriched)':''}</button><div id="schemaOut" style="margin-top:12px;">${saved?buildSaved(saved):''}</div>`;
-}
-function togSch(k,el){schToggles[k]=!schToggles[k];el.classList.toggle('on');el.querySelector('.tog-k').style.left=schToggles[k]?'18px':'2px';}
-function buildSaved(saved){const keys=Object.keys(saved.schemas);if(!keys.length)return'';const dt=new Date(saved.timestamp).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});return`<div><p class="sec-title" style="margin-bottom:10px;">Last generated · ${dt}</p>${buildBlocks(saved.schemas,'s')}</div>`;}
-function buildBlocks(schemas,prefix){const keys=Object.keys(schemas);if(!keys.length)return'';return`<div class="stabs" id="stabs_${prefix}">${keys.map((k,i)=>`<button class="stab ${i===0?'active':''}" onclick="switchStab('${prefix}',${i},this)">${k}</button>`).join('')}</div>${keys.map((k,i)=>`<div id="stab_${prefix}_${i}" style="display:${i===0?'block':'none'};"><div class="code-wrap"><textarea class="code-box" readonly rows="12">${esc(schemas[k])}</textarea><button class="copy-btn" onclick="cpCode('stab_${prefix}_${i}')">Copy</button></div></div>`).join('')}`;}
-function switchStab(prefix,idx,btn){const te=document.getElementById('stabs_'+prefix);if(te)te.querySelectorAll('.stab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');for(let j=0;j<8;j++){const e=document.getElementById(`stab_${prefix}_${j}`);if(e)e.style.display=j===idx?'block':'none';}}
-function cpCode(blockId){const el=document.querySelector(`#${blockId} textarea`);if(!el)return;navigator.clipboard.writeText(el.value).catch(()=>{el.select();document.execCommand('copy');});}
-
-async function genSchema(){
-  const scans=DB.scans[AC]||[];if(!scans.length)return;
-  const enabled=Object.keys(schToggles).filter(k=>schToggles[k]);
-  if(!enabled.length){alert('Enable at least one schema type.');return;}
-  const lat=scans[scans.length-1];
-  const missed=lat.results.filter(r=>!r.cited).map(r=>r.query);
-  const fkw=[...new Set(lat.results.flatMap(r=>r.keywords_found||[]).map(k=>k.toLowerCase()))];
-  const mkw=(lat.keywords||[]).filter(k=>!fkw.some(f=>f.includes(k.toLowerCase())||k.toLowerCase().includes(f)));
-  const cr=lat.results.length>0?Math.round((lat.results.filter(r=>r.cited).length/lat.results.length)*100):0;
-  const c=DB.clients[AC]||{},rev=DB.reviews[AC];
-  const revPhrases=(rev?.analysis?.positive_phrases||[]).slice(0,5).map(p=>p.phrase);
-  const revKW=rev?.analysis?.schema_keywords||[];
-  const allKW=[...new Set([...(lat.keywords||[]),...revKW])];
-  const revFAQs=rev?.analysis?.faq_suggestions||[];
-  const allRevs=[...(rev?.google?.reviews||[]),...(rev?.yelp?.reviews||[])];
-  const avgRating=allRevs.length>0?(allRevs.reduce((s,r)=>s+r.stars,0)/allRevs.length).toFixed(1):'4.5';
-  const totRevs=(rev?.google?.total||0)+(rev?.yelp?.total||0)||allRevs.length;
-  document.getElementById('schemaOut').innerHTML=`<div class="thinking"><div class="spinner"></div>Generating ${enabled.length} schema type${enabled.length>1?'s':''}${revPhrases.length>0?' with review intelligence':''}...</div>`;
-  document.getElementById('genBtn').disabled=true;
-  try{
-    const schemas={};
-    const tl={restaurant:'Restaurant',faqpage:'FAQPage',localbusiness:'LocalBusiness',menu:'Menu',breadcrumb:'BreadcrumbList'};
-    for(const type of enabled){const code=await genType(c.name,type,c.location,allKW,missed,mkw,cr,revPhrases,revFAQs,avgRating,totRevs);if(code)schemas[tl[type]]=code;}
-    DB.schemas[AC]={timestamp:Date.now(),schemas};await save();
-    const imps=[];
-    if(enabled.includes('faqpage')&&missed.length>0)imps.push({t:`${missed.length} uncited quer${missed.length>1?'ies':'y'} → FAQ entries`,d:'Each becomes a Q&A that AI surfaces directly'});
-    if(revPhrases.length>0)imps.push({t:'Review phrases injected into descriptions',d:`"${revPhrases[0]}" — exact language AI models pull`});
-    if(totRevs>0)imps.push({t:`AggregateRating: ${avgRating} from ${totRevs} reviews`,d:'Structured social proof boosts citation confidence'});
-    document.getElementById('schemaOut').innerHTML=`<div style="margin-top:12px;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;"><p class="sec-title" style="margin:0;">Generated schema</p><span style="font-size:11px;color:var(--green);font-family:var(--mono);font-weight:500;">${Object.keys(schemas).length} blocks ready</span></div>${imps.length>0?`<div class="pbox" style="margin-bottom:12px;">${imps.map(i=>`<div class="imp-item"><div class="imp-dot"></div><div><div class="imp-title">${i.t}</div><div class="imp-desc">${i.d}</div></div></div>`).join('')}</div>`:''} ${buildBlocks(schemas,'g')}<div class="btn-row"><button class="abtn primary" onclick="alert('Copy the schema above and paste it into a script tag in your site head.')">Deploy to site ↗</button><button class="abtn" onclick="nav('scan',document.querySelector('[data-panel=scan]'))">Re-scan to verify ↗</button></div></div>`;
-  }catch(e){document.getElementById('schemaOut').innerHTML=`<div class="pbox"><p style="font-size:12px;color:var(--red);">Error: ${e.message}</p></div>`;}
-  document.getElementById('genBtn').disabled=false;document.getElementById('genBtn').textContent='Regenerate schema';
-}
-async function genType(name,type,loc,kws,missed,mkw,cr,revPhrases,revFAQs,avgRating,totRevs){
-  const ps=revPhrases.length>0?`\nInject these exact review phrases: ${revPhrases.join(', ')}`:'';
-  const rs=totRevs>0?`\naggregateRating: ratingValue ${avgRating}, reviewCount ${totRevs}`:'';
-  const prompts={restaurant:`JSON-LD Restaurant schema for "${name}" in ${loc}.\nInclude @context, @type, name, description (keywords: ${kws.join(', ')}), address, telephone, url, servesCuisine, priceRange, openingHours, aggregateRating.${ps}${rs}\nCitation rate is ${cr}% — make description rich and keyword-dense.\nReturn ONLY valid JSON-LD.`,faqpage:`JSON-LD FAQPage for "${name}" in ${loc}.\nFAQ entries for each uncited query:\n${missed.map((q,i)=>`${i+1}. "${q}"`).join('\n')}\nAlso for: ${mkw.join(', ')}.${revFAQs.length>0?'\nIncorporate:\n'+revFAQs.map(f=>`Q: ${f.question}\nA: ${f.answer}`).join('\n'):''}\nEvery answer must naturally mention "${name}". Return ONLY valid JSON-LD FAQPage.`,localbusiness:`JSON-LD LocalBusiness for "${name}" in ${loc}.\n@type [LocalBusiness,Restaurant,FoodEstablishment], full PostalAddress, geo, telephone, url, openingHoursSpecification, paymentAccepted, priceRange, amenityFeature, areaServed.${rs}\nReturn ONLY valid JSON-LD.`,menu:`JSON-LD Menu for "${name}" in ${loc}.\n3 sections, 3-4 items each with MenuSection/MenuItem, name, description, offers with price.${ps}\nReturn ONLY valid JSON-LD.`,breadcrumb:`JSON-LD BreadcrumbList for "${name}" website.\nHome, Menu, Reservations, About, Contact.\nReturn ONLY valid JSON-LD.`};
-  const res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompts[type]}]})});
-  const d=await res.json();if(d.error)throw new Error(d.error.message);
-  let t=d.content.map(b=>b.text||'').join('').trim().replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/```\s*$/,'').trim();
-  try{return JSON.stringify(JSON.parse(t),null,2);}catch(e){return t;}
-}
-
+/* ── SETTINGS ── */
 function renderSettings(){
   const el=document.getElementById('p-settings');
-  el.innerHTML=`<p class="sec-title">Active clients</p>${Object.keys(DB.clients).map(name=>{const c=DB.clients[name],s=DB.scans[name]||[],r=DB.reviews[name],sc=DB.schemas[name];return`<div class="settings-client"><div><p style="font-size:13px;font-weight:500;margin-bottom:3px;">${name}</p><p style="font-size:11px;color:var(--text3);font-family:var(--mono);">${c.location||'–'} · ${c.cuisine||'–'} · ${s.length} scan${s.length!==1?'s':''} · ${r?'reviews ✓':'no reviews'} · ${sc?'schema ✓':'no schema'}</p></div><button onclick="delClient('${name}')" style="font-size:11px;color:var(--red);background:#fee2e2;border:1px solid #fca5a5;border-radius:var(--radius);padding:4px 10px;cursor:pointer;font-family:var(--sans);font-weight:500;">Delete</button></div>`;}).join('')}<div class="pbox" style="margin-top:14px;"><p class="sec-title">Add client</p><div class="two"><div class="field" style="margin:0;"><label class="lbl">Name</label><input class="inp" id="newName" placeholder="e.g. Filomena" /></div><div class="field" style="margin:0;"><label class="lbl">Cuisine</label><input class="inp" id="newCuisine" placeholder="e.g. Italian" /></div></div><div class="field" style="margin-top:10px;"><label class="lbl">Location</label><input class="inp" id="newLoc" placeholder="e.g. Georgetown, Washington DC" /></div><div class="field"><label class="lbl">Keywords</label><input class="inp" id="newKW" placeholder="e.g. Italian, pasta, romantic, Georgetown" /></div><button class="btn" onclick="addClient()" style="margin-top:4px;">Add client</button></div><div class="pbox" style="margin-top:10px;"><p class="sec-title">Data</p><div class="btn-row"><button class="abtn" style="color:var(--red);border-color:#fca5a5;" onclick="if(confirm('Clear all data?')){DB={clients:{},scans:{},schemas:{},reviews:{},apiKeys:{}};AC=null;save().then(()=>location.reload());}">Clear all data</button></div></div>`;
+  el.innerHTML=`
+    <p class="sec-title">Active clients</p>
+    ${Object.keys(DB.clients).map(name=>{
+      const c=DB.clients[name],s=DB.scans[name]||[],r=DB.reviews[name],sc=DB.schemas[name];
+      const aeo=calcAEOScore(s,sc);
+      return`<div class="settings-client">
+        <div style="flex:1;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
+            <p style="font-size:13px;font-weight:500;">${name}</p>
+            ${aeo?`<span style="font-size:12px;font-weight:600;color:${scoreColor(aeo.score)};font-family:var(--mono);">AEO ${aeo.score} · Grade ${aeo.grade}</span>`:''}
+          </div>
+          <p style="font-size:11px;color:var(--text3);font-family:var(--mono);">${c.location||'–'} · ${c.cuisine||'–'} · ${s.length} scan${s.length!==1?'s':''} · ${r?'reviews ✓':'no reviews'} · ${sc?'schema ✓':'no schema'}</p>
+        </div>
+        <button onclick="delClient('${name}')" style="font-size:11px;color:var(--red);background:#fee2e2;border:1px solid #fca5a5;border-radius:var(--radius);padding:4px 10px;cursor:pointer;font-family:var(--sans);font-weight:500;flex-shrink:0;">Delete</button>
+      </div>`;
+    }).join('')}
+    <div class="pbox" style="margin-top:14px;">
+      <p class="sec-title">Add client</p>
+      <div class="two">
+        <div class="field" style="margin:0;"><label class="lbl">Name</label><input class="inp" id="newName" placeholder="e.g. Filomena" /></div>
+        <div class="field" style="margin:0;"><label class="lbl">Cuisine</label><input class="inp" id="newCuisine" placeholder="e.g. Italian" /></div>
+      </div>
+      <div class="field" style="margin-top:10px;"><label class="lbl">Location</label><input class="inp" id="newLoc" placeholder="e.g. Georgetown, Washington DC" /></div>
+      <div class="field"><label class="lbl">Keywords</label><input class="inp" id="newKW" placeholder="e.g. Italian, pasta, romantic, Georgetown" /></div>
+      <button class="btn" onclick="addClient()" style="margin-top:4px;">Add client</button>
+    </div>
+    <div class="pbox" style="margin-top:10px;">
+      <p class="sec-title">Data</p>
+      <div class="btn-row">
+        <button class="abtn danger" onclick="if(confirm('Clear all data?')){DB={clients:{},scans:{},schemas:{},reviews:{},apiKeys:{},competitors:{},regenQueue:{}};AC=null;save().then(()=>location.reload());}">Clear all data</button>
+      </div>
+    </div>`;
 }
 async function addClient(){
   const name=document.getElementById('newName').value.trim();if(!name){alert('Enter a name.');return;}
@@ -525,9 +1021,11 @@ async function addClient(){
 async function delClient(name){
   if(!confirm(`Delete ${name} and all data?`))return;
   ['clients','scans','schemas','reviews'].forEach(k=>{delete DB[k][name];});
+  delete DB.competitors[name];delete DB.competitors[name+'_scans'];delete DB.regenQueue[name];
   if(AC===name)AC=Object.keys(DB.clients)[0]||null;
   await save();renderSidebarClients();renderSettings();
 }
+
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function escRe(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
 
